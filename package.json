@@ -1,5 +1,5 @@
 {
-    "name": "@jadesrochers/renamethis",
+    "name": "@jadesrochers/geomap",
     "version": "0.1.0",
     "license": "MIT",
     "author": "Jared Desrochers",
@@ -8,16 +8,16 @@
     "module": "build/esm.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/jadesrochers/renamethis.git"
+        "url": "https://github.com/jadesrochers/geomap.git"
     },
-    "description": "Describe what the component library does",
+    "description": "Components to create feature maps using SVG and a minimal amount of d3",
     "keywords": [
         "react"
     ],
     "dependencies": {
         "@emotion/core": "^10.0.10",
         "@jadesrochers/legends": "^0.1.0",
-        "@jadesrochers/reacthelpers": "^0.1.8",
+        "@jadesrochers/reacthelpers": "^0.1.10",
         "@jadesrochers/selectbox": "^0.1.4",
         "d3-geo": "^1.11.6",
         "ramda": "^0.26.1",

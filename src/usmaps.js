@@ -2,22 +2,47 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import * as R from 'ramda'
 import { geoAlbersUsa } from 'd3-geo'
+import { scaleQuantile } from 'd3-scale';
 import { GeoSvg } from './geosvg'
 import * as topojson from 'topojson'
 import { jsx } from '@emotion/core'
 import { ToolTipSvg } from './svgtools'
-import { highlight, deHighlight, quantile, GnYlRd73 } from './stylehelpers'
 import { ZoomButtons } from './zoombutton'
-/* import { retryGeoJson } from '../reqs' */
 import { BarScale } from '@jadesrochers/legends'
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan } from '@jadesrochers/selectbox'
-import { passExceptChildren } from '@jadesrochers/reacthelpers'
+import { passExceptChildren, highlight, deHighlight } from '@jadesrochers/reacthelpers'
+
+
+const GnYlRd73 = [  '#005a32', '#238443', '#41ab5d', '#78c679', '#addd8e', '#d9f0a3', '#ffffcc', '#ffeda0', '#feb24c', '#f03b20']
+const quantile = R.curry((outputRange, data) => scaleQuantile().domain(R.values(data)).range(outputRange))
 
 const flexColumnCenter = {display: "flex", alignItems: "center" , flexDirection: "column"}
 const blackOutline = {outline: '1px solid #000' }
 const whitefill = {backgroundColor: '#FFF' }
 
 const projectAlbersUsa = (scale) => geoAlbersUsa().scale(scale).translate([425, 220])
+
+const useLoadgeo = (dataget, topotype) => {
+  const [geodata, setgeodata] = useState(undefined)
+  React.useEffect(()=> {
+  let rawgeo = {}
+  let datagetter
+    if(typeof dataget === "function"){
+      datagetter = async () => {
+        rawgeo[topotype] = await dataget()
+        setgeodata(topojson.topology(rawgeo))
+      }
+    }else{
+      datagetter = () => {
+        rawgeo[topotype] = dataget
+        setgeodata(topojson.topology(rawgeo))
+      }
+    }
+    datagetter()
+  }, [])
+
+  return geodata
+}
 
 const GeoMap = (props) => {
   const [datadisplay, setdatadisplay] = useState(false)
@@ -50,80 +75,115 @@ const GeoMap = (props) => {
   )
 }
 
-// I split this out to minimize re-renders due to tooltip state changes.
+const UsMap = (props) => {
+  const propsToChildren = passExceptChildren(props)
+  return(
+    <GeoMap 
+      projection={ projectAlbersUsa }
+      scaling={975}
+      width={ '90%' }
+      height={ '100%' }
+      data={ props.geodata }
+      {...props}
+    >
+      <SelectBase  key='selectioncontrol' width={'99%'} height={'95%'} sizex={800} sizey={450} cssStyles={[blackOutline, whitefill]} >
+        <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={"0 0 800 450"}>
+           <MouseRect key='mousecapture' height="99%" width="99%" />
+           {props.children}
+        </ViewBoxZoomPan>
+      </SelectBase>
+      <ZoomButtons key='zoombutton' xoffset='90%' yoffset='90%'/>
+    </GeoMap>
+  )
+}
+
+// generic ToolTipMap
 const ToolTipMap = (props) => {
   const [tooltip, settooltip] = useState(false)
+
+  let pass = R.omit(['x','y','startx','starty','endx','endy','clickx','clicky','selectx','selecty','offx','offy','dragx','dragy','trackBounds'])(props)
+  pass = { ...pass, tooltip: tooltip, settooltip: settooltip }
+  const propsToChildren = passExceptChildren(pass)
   return(
    <React.Fragment>
-    <UsCountyMap key="countymap"
-     style={props.countystyle} 
-     tooltip={tooltip} settooltip={settooltip}
-     {...props}
-    />
-    <UsStateMap key="statemap"
-      style={props.statestyle} 
-      {...props}
-    />
-    <ToolTipSvg key='tooltip1' width={120} height={50}
-     tooltip={tooltip} settooltip={settooltip}
-     {...props}
-    />
+     {propsToChildren}
+     <ToolTipSvg key='tooltip1' width={120} height={50}
+       {...pass}
+     />
    </React.Fragment>
   )
 }
 
 // Much easier with this setup to make maps of any base geo 
 // unit I want, or combinations thereof.
-const UsStateandCounty = (props) => {
-  console.log('Hit UsStateandCounty, props: ',props)
+const UsCounty = (props) => {
+  console.log('Hit UsCounty, props: ',props)
   return(
-   <GeoMap 
-      projection={ projectAlbersUsa }
-      scaling={975}
-      data={ props.geodata }
-      datavals={ props.datavals }
-      legendstyle={props.legendstyle}
-      limitHook={ props.limitHook }
-      getcounties={ props.getcounties }
-      getstates={ props.getstates }
-      width={ '90%' }
-      height={ '100%' }
+   <UsMap 
+     { ...props }
    >
-    <SelectBase  key='selectioncontrol' width={'99%'} height={'95%'} sizex={800} sizey={450} cssStyles={[blackOutline, whitefill]} >
-       <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={"0 0 800 450"}>
-         <MouseRect key='mousecapture' height="99%" width="99%" />
-         <ToolTipMap key='countytooltip' 
-           countystyle={props.countystyle} 
-           statestyle={props.statestyle} 
-         />
-       </ViewBoxZoomPan>
-     </SelectBase>
-     <ZoomButtons key='zoombutton' xoffset='90%' yoffset='90%'/>
-   </GeoMap>
+     <ToolTipMap key='countytooltip' >
+      <UsCountyMap key="countymap"
+        style={props.countystyle} 
+      />
+      <UsStateStaticMap key="statemap"
+        style={props.statestyle} 
+      />
+     </ToolTipMap>
+
+   </UsMap>
   )
 }
 
-const UsCountyMap = (props) => {
 
-  const [geocounty, setgeocounty] = useState(null)
-  useEffect(()=> {
-    let dataget = async () => {
-      /* setgeocounty(topojson.topology({county: (await retryGeoJson('county', 4, {timeout: 3000})) } )) */
-      setgeocounty(topojson.topology({county: (await props.getcounties()) } ))
-    }
-    dataget()
-  }, [])
+// Only counties; not state lines. I think it looks odd this way.  
+const UsCountyOnly = (props) => {
+  console.log('Hit UsCountyOnly, props: ',props)
+  return(
+   <UsMap 
+      { ...props }
+   >
+     <ToolTipMap key='countytooltip' >
+      <UsCountyMap key="countymap"
+        style={props.countystyle} 
+      />
+     </ToolTipMap>
+   </UsMap>
+  )
+}
+
+
+// Much easier with this setup to make maps of any base geo 
+// unit I want, or combinations thereof.
+const UsState = (props) => {
+  console.log('Hit UsState, props: ',props)
+  return(
+   <UsMap 
+      { ...props }
+   >
+     <ToolTipMap key='countytooltip' >
+       <UsStateMap key="statemap"
+         style={props.statestyle} 
+       />
+     </ToolTipMap>
+   </UsMap>
+  )
+}
+
+
+const UsCountyMap = (props) => {
+  const geocounty = useLoadgeo(props.getcounties,'county')
   let pass = R.dissoc('style')(props)
-  if( ! geocounty){
+
+  if( ! geocounty ){
     return null
   }
-
-  /* console.log('geocounty object:\n',geocounty) */
+  /* console.log('geocounty object value:\n',geocounty) */
   return(
     <GeoSvg key='countyfeatures'
       topology={ geocounty }
       topopath={'county'}
-      datadecorate={ quantile(GnYlRd73) }
+      datadecorate={ props.countydatastyle ? props.countydatastyle : quantile(GnYlRd73) }
       styling={props.style}
       highlight={highlight({'stroke-width':2, fill:'#5d6d7e'})}
       deHighlight={deHighlight}
@@ -132,21 +192,12 @@ const UsCountyMap = (props) => {
   )
 }
 
-const UsStateMap = (props) => {
-  const [geostate, setgeostate] = useState(null)
-  useEffect(()=> {
-    let dataget = async () => {
-      /* setgeostate(topojson.topology({state: (await retryGeoJson('state', 4, {timeout: 3000})) } )) */
-      setgeostate(topojson.topology({state: (await props.getstates()) } ))
-    }
-    dataget()
-  }, [])
-
+const UsStateStaticMap = (props) => {
+  const geostate = useLoadgeo(props.getstates,'state')
   let pass = R.dissoc('style')(props)
   if( ! geostate){
     return null
   }
-  /* console.log('geostate object:\n',geostate) */
   return(
     <GeoSvg key='statefeatures'
       cssStyles={{pointerEvents: 'none'}}
@@ -158,4 +209,24 @@ const UsStateMap = (props) => {
   )
 }
 
-export { UsStateandCounty }
+const UsStateMap = (props) => {
+  console.log('UsStateMap props: ',props)
+  const geostate = useLoadgeo(props.getstates,'state')
+  let pass = R.dissoc('style')(props)
+  if( ! geostate){
+    return null
+  }
+  return(
+    <GeoSvg key='statefeatures'
+      topology={ geostate }
+      topopath={'state'}
+      styling={props.style}
+      datadecorate={ props.statedatastyle ? props.statedatastyle : quantile(GnYlRd73) }
+      highlight={highlight({'stroke-width':2, fill:'#5d6d7e'})}
+      deHighlight={deHighlight}
+      { ...pass }
+    />
+  )
+}
+
+export { UsCounty, UsState, UsCountyOnly }
