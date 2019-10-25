@@ -210,7 +210,7 @@ const UsStateStaticMap = (props) => {
 }
 
 const UsStateMap = (props) => {
-  console.log('UsStateMap props: ',props)
+  /* console.log('UsStateMap props: ',props) */
   const geostate = useLoadgeo(props.getstates,'state')
   let pass = R.dissoc('style')(props)
   if( ! geostate){
