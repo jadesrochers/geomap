@@ -7,9 +7,8 @@ import { GeoSvg } from './geosvg'
 import * as topojson from 'topojson'
 import { jsx } from '@emotion/core'
 import { ToolTipSvg } from './svgtools'
-import { ZoomButtons } from './zoombutton'
 import { BarScale } from '@jadesrochers/legends'
-import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan } from '@jadesrochers/selectbox'
+import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons} from '@jadesrochers/selectbox'
 import { passExceptChildren, highlight, deHighlight } from '@jadesrochers/reacthelpers'
 
 
