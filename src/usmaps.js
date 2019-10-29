@@ -45,14 +45,10 @@ const useLoadgeo = (dataget, topotype) => {
 
 const GeoMap = (props) => {
   const [datadisplay, setdatadisplay] = useState(false)
-  const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(2.0, 1.0)
   // Props I can pass: scaling, limitHook, projection, data(maybe)
   let pass = R.pipe(R.dissoc('height'), R.dissoc('width'))(props)
   pass = { ...pass, 
       datadisplay: datadisplay, setdatadisplay: setdatadisplay,
-      scale: scale, pan: pan,
-      zoomin: zoomin, zoomout: zoomout,
-      shiftxpct: shiftxpct, shiftypct: shiftypct,
       limits: props.limitHook.xlimits}
 
   const propsToChildren = passExceptChildren(pass)
@@ -75,6 +71,13 @@ const GeoMap = (props) => {
 }
 
 const UsMap = (props) => {
+  const xsize=800
+  const ysize=450
+  const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(2.0, 1.0, xsize, ysize)
+  let pass = { ...props, scale: scale, pan: pan,
+      zoomin: zoomin, zoomout: zoomout,
+      shiftxpct: shiftxpct, shiftypct: shiftypct}
+
   const propsToChildren = passExceptChildren(props)
   return(
     <GeoMap 
@@ -83,10 +86,10 @@ const UsMap = (props) => {
       width={ '90%' }
       height={ '100%' }
       data={ props.geodata }
-      {...props}
+      {...pass}
     >
-      <SelectBase  key='selectioncontrol' width={'99%'} height={'95%'} sizex={800} sizey={450} cssStyles={[blackOutline, whitefill]} >
-        <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={"0 0 800 450"}>
+      <SelectBase  key='selectioncontrol' width={'99%'} height={'95%'} sizex={xsize} sizey={ysize} cssStyles={[blackOutline, whitefill]} >
+        <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={`0 0 ${xsize} ${ysize}`}>
            <MouseRect key='mousecapture' height="99%" width="99%" />
            {props.children}
         </ViewBoxZoomPan>

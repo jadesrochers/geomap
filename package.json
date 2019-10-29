@@ -16,7 +16,7 @@
     "dependencies": {
         "@jadesrochers/legends": "^0.1.2",
         "@jadesrochers/reacthelpers": "^0.1.11",
-        "@jadesrochers/selectbox": "^0.1.11",
+        "@jadesrochers/selectbox": "^0.1.12",
         "d3-geo": "^1.11.6",
         "ramda": "^0.26.1",
         "topojson": "^3.0.2"
