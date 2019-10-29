@@ -26,7 +26,7 @@ const GeoFeature = (props) => {
   let data = props.data, limits = props.limits, feature = props.feature
   if (data && data>limits.min && data<limits.max) {
      styles.fill = props.colorize(data);
-     styles.stroke = 'none'
+     styles = { ...styles, ...props.datastyling }
   }
   return (<path d={path}
     css={{...styles, shapeRendering: "crispEdges"}} 

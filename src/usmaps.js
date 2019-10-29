@@ -17,7 +17,7 @@ const GnYlRd73 = [  '#005a32', '#238443', '#41ab5d', '#78c679', '#addd8e', '#d9f
 const quantile = R.curry((outputRange, data) => scaleQuantile().domain(R.values(data)).range(outputRange))
 
 const flexColumnCenter = {display: "flex", alignItems: "center" , flexDirection: "column"}
-const blackOutline = {outline: '1px solid #000' }
+const blackOutline = {outline: '1px solid #000', margin: '2px' }
 const whitefill = {backgroundColor: '#FFF' }
 
 const projectAlbersUsa = (scale) => geoAlbersUsa().scale(scale).translate([425, 220])
@@ -125,9 +125,11 @@ const UsCounty = (props) => {
      <ToolTipMap key='countytooltip' >
       <UsCountyMap key="countymap"
         style={props.countystyle} 
+        datastyle={props.countydatastyle} 
       />
       <UsStateStaticMap key="statemap"
         style={props.statestyle} 
+        datastyle={props.statedatastyle} 
       />
      </ToolTipMap>
 
@@ -146,6 +148,7 @@ const UsCountyOnly = (props) => {
      <ToolTipMap key='countytooltip' >
       <UsCountyMap key="countymap"
         style={props.countystyle} 
+        datastyle={props.countydatastyle} 
       />
      </ToolTipMap>
    </UsMap>
@@ -164,6 +167,7 @@ const UsState = (props) => {
      <ToolTipMap key='countytooltip' >
        <UsStateMap key="statemap"
          style={props.statestyle} 
+         datastyle={props.statedatastyle} 
        />
      </ToolTipMap>
    </UsMap>
@@ -183,8 +187,9 @@ const UsCountyMap = (props) => {
     <GeoSvg key='countyfeatures'
       topology={ geocounty }
       topopath={'county'}
-      datadecorate={ props.countydatastyle ? props.countydatastyle : quantile(GnYlRd73) }
+      datadecorate={ props.countydatacolr ? props.countydatacolor : quantile(GnYlRd73) }
       styling={props.style}
+      datastyling={props.datastyle}
       highlight={highlight({'stroke-width':2, fill:'#5d6d7e'})}
       deHighlight={deHighlight}
       { ...pass }
@@ -204,6 +209,7 @@ const UsStateStaticMap = (props) => {
       topology={ geostate }
       topopath={'state'}
       styling={props.style}
+      datastyling={props.datastyle}
       { ...pass }
     />
   )
@@ -221,7 +227,8 @@ const UsStateMap = (props) => {
       topology={ geostate }
       topopath={'state'}
       styling={props.style}
-      datadecorate={ props.statedatastyle ? props.statedatastyle : quantile(GnYlRd73) }
+      datastyling={props.datastyle}
+      datadecorate={ props.statedatacolor ? props.statedatacolor : quantile(GnYlRd73) }
       highlight={highlight({'stroke-width':2, fill:'#5d6d7e'})}
       deHighlight={deHighlight}
       { ...pass }

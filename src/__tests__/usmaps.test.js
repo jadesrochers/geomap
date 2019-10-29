@@ -27,10 +27,11 @@ describe('usmaps tests',  () => {
       wrapper = mount(<svg>
        <UsCounty
          geodata={undefined}
-         /* limitHook={limitHook} */
          statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
+         statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
          countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
-         limitHook={{xlimit: [0,0]}}
+         countydatastyle={{ stroke: '#bcc6c6' }}
+         limitHook={{xlimits: {min: 0, max: 100}}}
          getstates={stateProm}
          getcounties={countyProm}
        >
@@ -48,9 +49,9 @@ describe('usmaps tests',  () => {
       wrapper = mount(<svg>
        <UsState
          geodata={undefined}
-         /* limitHook={limitHook} */
          statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
-         limitHook={{xlimit: [0,0]}}
+         statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
+         limitHook={{xlimits: {min: 0, max: 100}}}
          getstates={stateProm}
        >
        </UsState>
