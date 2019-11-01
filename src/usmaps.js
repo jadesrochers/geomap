@@ -9,7 +9,7 @@ import { jsx } from '@emotion/core'
 import { ToolTipSvg } from './svgtools'
 import { BarScale } from '@jadesrochers/legends'
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons} from '@jadesrochers/selectbox'
-import { passExceptChildren, highlight, deHighlight } from '@jadesrochers/reacthelpers'
+import { passExceptChildren, createHighlight } from '@jadesrochers/reacthelpers'
 
 
 const GnYlRd73 = [  '#005a32', '#238443', '#41ab5d', '#78c679', '#addd8e', '#d9f0a3', '#ffffcc', '#ffeda0', '#feb24c', '#f03b20']
@@ -70,7 +70,7 @@ const GeoMap = (props) => {
   )
 }
 
-const UsMap = (props) => {
+const BaseMap = (props) => {
   const xsize=800
   const ysize=450
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(2.0, 1.0, xsize, ysize)
@@ -81,8 +81,8 @@ const UsMap = (props) => {
   const propsToChildren = passExceptChildren(props)
   return(
     <GeoMap 
-      projection={ projectAlbersUsa }
-      scaling={975}
+      projection={props.projection }
+      scaling={props.scaling ? props.scaling : 1000}
       width={ '90%' }
       height={ '100%' }
       data={ props.geodata }
@@ -121,8 +121,10 @@ const ToolTipMap = (props) => {
 const UsCounty = (props) => {
   console.log('Hit UsCounty, props: ',props)
   return(
-   <UsMap 
-     { ...props }
+   <BaseMap 
+      projection={ props.projection ? props.projection : projectAlbersUsa }
+      scaling={props.scaling ? props.scaling : 975}
+      { ...props }
    >
      <ToolTipMap key='countytooltip' >
       <UsCountyMap key="countymap"
@@ -135,7 +137,7 @@ const UsCounty = (props) => {
       />
      </ToolTipMap>
 
-   </UsMap>
+   </BaseMap>
   )
 }
 
@@ -144,8 +146,10 @@ const UsCounty = (props) => {
 const UsCountyOnly = (props) => {
   console.log('Hit UsCountyOnly, props: ',props)
   return(
-   <UsMap 
-      { ...props }
+   <BaseMap 
+     projection={ props.projection ? props.projection : projectAlbersUsa }
+     scaling={props.scaling ? props.scaling : 975}
+     { ...props }
    >
      <ToolTipMap key='countytooltip' >
       <UsCountyMap key="countymap"
@@ -153,7 +157,7 @@ const UsCountyOnly = (props) => {
         datastyle={props.countydatastyle} 
       />
      </ToolTipMap>
-   </UsMap>
+   </BaseMap>
   )
 }
 
@@ -163,8 +167,10 @@ const UsCountyOnly = (props) => {
 const UsState = (props) => {
   console.log('Hit UsState, props: ',props)
   return(
-   <UsMap 
-      { ...props }
+   <BaseMap 
+     projection={ props.projection ? props.projection : projectAlbersUsa }
+     scaling={props.scaling ? props.scaling : 975}
+     { ...props }
    >
      <ToolTipMap key='countytooltip' >
        <UsStateMap key="statemap"
@@ -172,13 +178,14 @@ const UsState = (props) => {
          datastyle={props.statedatastyle} 
        />
      </ToolTipMap>
-   </UsMap>
+   </BaseMap>
   )
 }
 
 
 const UsCountyMap = (props) => {
   const geocounty = useLoadgeo(props.getcounties,'county')
+  const [highlight, deHighlight] = createHighlight()
   let pass = R.dissoc('style')(props)
 
   if( ! geocounty ){
@@ -219,6 +226,7 @@ const UsStateStaticMap = (props) => {
 
 const UsStateMap = (props) => {
   /* console.log('UsStateMap props: ',props) */
+  const [highlight, deHighlight] = createHighlight()
   const geostate = useLoadgeo(props.getstates,'state')
   let pass = R.dissoc('style')(props)
   if( ! geostate){
@@ -238,4 +246,4 @@ const UsStateMap = (props) => {
   )
 }
 
-export { UsCounty, UsState, UsCountyOnly }
+export { UsCounty, UsState, UsCountyOnly, BaseMap, ToolTipMap, useLoadgeo }
