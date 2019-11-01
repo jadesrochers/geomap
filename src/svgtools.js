@@ -41,7 +41,7 @@ const Createtooltip = (props) => {
   const data = props.tooltip.data ? Math.round(props.tooltip.data) : 'No Value'
   const featprops = props.tooltip.feature.properties
   const defaultname = featprops.NAME ? 'NAME' : 'name'
-  const name = props.datakey ? props.datakey : defaultname
+  const name = props.tooltipkey ? props.tooltipkey : defaultname
   return(
    <div
      style={{display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '80%', height: props.height, width: props.width}}
