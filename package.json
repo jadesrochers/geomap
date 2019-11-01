@@ -1,6 +1,6 @@
 {
     "name": "@jadesrochers/geomap",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "license": "MIT",
     "author": "Jared Desrochers",
     "main": "build/cjs.js",
@@ -12,9 +12,9 @@
     "description": "Components to create feature maps using SVG and a minimal amount of d3",
     "keywords": [
         "react",
-	"geographic",
-	"map",
-	"d3"
+        "geographic",
+        "map",
+        "d3"
     ],
     "dependencies": {
         "@jadesrochers/legends": "^0.1.2",
