@@ -35,6 +35,8 @@ describe('custom map tests',  () => {
     await act( async () => {
       wrapper = mount(<svg>
        <CustomMap
+         featurename={'state'}
+         getgeofeat={stateProm}
          viewxsize={300} 
          viewysize={200} 
          scaling={500}
@@ -42,7 +44,6 @@ describe('custom map tests',  () => {
          style={{ fill: 'none', stroke: '#45b3b3', strokeLinejoin: 'round'}}
          datastyle={{ stroke: '#44b64c', strokeLinejoin: 'round'}}
          limitHook={{xlimits: {min: 0, max: 100}}}
-         getgeodata={stateProm}
        >
        </CustomMap>
     </svg>)  

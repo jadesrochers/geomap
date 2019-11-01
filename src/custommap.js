@@ -33,7 +33,7 @@ const CustomMap = (props) => {
 
 const GenericMap = (props) => {
   // Since the feature type is unknown, need a featurename argument
-  const geofeatures = useLoadgeo(props.getgeodata, props.featurename)
+  const geofeatures = useLoadgeo(props.getgeofeat, props.featurename)
   const [highlight, deHighlight] = createHighlight()
   let pass = R.dissoc('style')(props)
 

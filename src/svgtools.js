@@ -37,13 +37,16 @@ var Foreignobject = (props) => {
   )
 }
 
-var Createtooltip = (props) => {
-  let data = props.tooltip.data ? Math.round(props.tooltip.data) : 'No Value'
+const Createtooltip = (props) => {
+  const data = props.tooltip.data ? Math.round(props.tooltip.data) : 'No Value'
+  const featprops = props.tooltip.feature.properties
+  const defaultname = featprops.NAME ? 'NAME' : 'name'
+  const name = props.datakey ? props.datakey : defaultname
   return(
    <div
      style={{display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '80%', height: props.height, width: props.width}}
    >
-     {props.tooltip.feature.properties.NAME} <br/>
+     {featprops[name]} <br/>
      Data: {data}
    </div>
   )
