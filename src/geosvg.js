@@ -15,8 +15,8 @@ const useGeoMemo = (input) => {
 }
 
 const useFeatureMemo = (input) => {
-  let path = useMemo(()=> input.geopath(input.feature),[input.feature.properties.GEO_ID])
-  let bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties.GEO_ID])
+  let path = useMemo(()=> input.geopath(input.feature),[input.feature.properties[input.dataselect]])
+  let bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties[input.dataselect]])
   return { path, bounds }
 }
 
@@ -44,20 +44,22 @@ const GeoFeature = (props) => {
 const GeoSvg = (props) => {
   let { features, projection, geopath } = useGeoMemo(props)
   let colorize = props.datadecorate ? props.datadecorate(props.data) : undefined
-  let passalong = { features, geopath, colorize, projection, ...props }
+  let dataselect = (props.dataselect ? props.dataselect : 'GEO_ID')
+  let pass = R.omit(['data'])(props)
+  let passalong = { geopath, colorize, dataselect, ...pass }
+    
   useMemo(() => {
     if(colorize && props.data){ props.setdatadisplay(() => colorize) }
   },[props.data])
-  
   return (
    <svg css={(props.cssStyles ? props.cssStyles : undefined)} >
       { useMemo(() => {
         return (
         features.map((feature) => <GeoFeature 
-        { ...passalong }
-        key={feature.properties.GEO_ID}
-        data={props.data ? props.data[feature.properties.GEO_ID] : undefined}
+        key={feature.properties[dataselect]}
+        data={props.data ? props.data[feature.properties[dataselect]] : undefined}
         feature={feature}
+        { ...passalong }
       />)) },[props.data, features.length, props.limits])}
    </svg>
   )

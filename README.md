@@ -9,7 +9,7 @@ It needs a data object with GEO_ID: data pairs if you want to display data.
 
 #### There are preset US maps, and a generic base map -  
 I set up the projection/scaling for some UsMap setups, but there is also  
-a generic BaseMap that can be used so long as you pass projection fcn as well.  
+a generic BaseMap that can be used for custom maps.  
 1. UsCounty 
 This map does US Counties and state outlines.   
 2. UsState  
@@ -59,14 +59,16 @@ const Usmap = props => {
 #### Creating your own custom map  
 A custom map requires a projection to be set in addition to providing data.  
 Styling does feature styling, datastyling styles features with data.  
-Need to create highlight/dehighlight function if you want feature hover to,  
-change styling. can use my helper functions or run your own.  
+You need to create highlight/dehighlight function if you want feature   
+styling to change on hover.  
+Can use my helper functions or run your own.  
 ```javascript
 import { createHighlight } from '@jadesrochers/reacthelpers'
-import { GeoSvg, BaseMap, ToolTipMap } from '@jadesrochers/geomap'
+import { GeoSvg, BaseMap, ToolTipMap, useLoadgeo } from '@jadesrochers/geomap'
 const CustomGeo = (props) => {
   const [highlight, deHighlight] = createHighlight()
-  const geodata = useLoadgeo(props.getstates,'state')
+  // The datakey will determine the path for the topology in the output
+  const geodata = useLoadgeo(props.getdata,'datakey')
   if( ! geostate){
     return null
   }
@@ -84,6 +86,7 @@ const CustomGeo = (props) => {
   )
 }
 
+// The ToolTipMap must contain the custom map to get data tooltip support.  
 const CustomMap = (props) => {
   console.log('Hit UsState, props: ',props)
   return(
@@ -102,3 +105,14 @@ const CustomMap = (props) => {
   )
 }
 ```
+#### Where to get projections -  
+I pulled the one I use from d3-geo, and it has a good variety of options, so  
+that is a good bet.  
+#### The geodata must be an object of GEOID: data pairs -  
+Geographic features (Countries, States, Provinces, Counties, Cities ...)  
+should all have a unique geoid, so that is why I have it set up that way to  
+match data with features.  
+#### Sizing the map -  
+By default, it will occupy as much space as it is given.  
+You can pass width/height args, or reduce the space it has, as it should  
+scale to any space given.  

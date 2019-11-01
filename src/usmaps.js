@@ -11,13 +11,14 @@ import { BarScale } from '@jadesrochers/legends'
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons} from '@jadesrochers/selectbox'
 import { passExceptChildren, createHighlight } from '@jadesrochers/reacthelpers'
 
-
 const GnYlRd73 = [  '#005a32', '#238443', '#41ab5d', '#78c679', '#addd8e', '#d9f0a3', '#ffffcc', '#ffeda0', '#feb24c', '#f03b20']
 const quantile = R.curry((outputRange, data) => scaleQuantile().domain(R.values(data)).range(outputRange))
-
 const flexColumnCenter = {display: "flex", alignItems: "center" , flexDirection: "column"}
+
 const blackOutline = {outline: '1px solid #000', margin: '2px' }
 const whitefill = {backgroundColor: '#FFF' }
+
+const defaultHighlight = {'stroke-width':2, fill:'#5d6d7e'}
 
 const projectAlbersUsa = (scale) => geoAlbersUsa().scale(scale).translate([425, 220])
 
@@ -47,8 +48,7 @@ const GeoMap = (props) => {
   const [datadisplay, setdatadisplay] = useState(false)
   // Props I can pass: scaling, limitHook, projection, data(maybe)
   let pass = R.pipe(R.dissoc('height'), R.dissoc('width'))(props)
-  pass = { ...pass, 
-      datadisplay: datadisplay, setdatadisplay: setdatadisplay,
+  pass = { ...pass, datadisplay: datadisplay, setdatadisplay: setdatadisplay,
       limits: props.limitHook.xlimits}
 
   const propsToChildren = passExceptChildren(pass)
@@ -56,7 +56,9 @@ const GeoMap = (props) => {
   return(
    <div css={[
       flexColumnCenter,
-    { height:"100%", width:"90%", overflow:"hidden", marginTop:"5px" }
+      { height: (props.height ? props.height : "100%"), 
+        width: (props.width ? props.width : "100%"), 
+        overflow:"hidden", marginTop:"5px" }
     
     ]} >
       <BarScale key='legend' 
@@ -71,8 +73,8 @@ const GeoMap = (props) => {
 }
 
 const BaseMap = (props) => {
-  const xsize=800
-  const ysize=450
+  const xsize=(props.viewxsize ? props.viewxsize : 800)
+  const ysize=(props.viewysize ? props.viewysize : 450)
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(2.0, 1.0, xsize, ysize)
   let pass = { ...props, scale: scale, pan: pan,
       zoomin: zoomin, zoomout: zoomout,
@@ -83,12 +85,10 @@ const BaseMap = (props) => {
     <GeoMap 
       projection={props.projection }
       scaling={props.scaling ? props.scaling : 1000}
-      width={ '90%' }
-      height={ '100%' }
       data={ props.geodata }
       {...pass}
     >
-      <SelectBase  key='selectioncontrol' width={'99%'} height={'95%'} sizex={xsize} sizey={ysize} cssStyles={[blackOutline, whitefill]} >
+      <SelectBase  key='selectioncontrol' width={'99%'} height={'99%'} sizex={xsize} sizey={ysize} cssStyles={[blackOutline, whitefill]} >
         <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={`0 0 ${xsize} ${ysize}`}>
            <MouseRect key='mousecapture' height="99%" width="99%" />
            {props.children}
@@ -103,7 +103,7 @@ const BaseMap = (props) => {
 const ToolTipMap = (props) => {
   const [tooltip, settooltip] = useState(false)
 
-  let pass = R.omit(['x','y','startx','starty','endx','endy','clickx','clicky','selectx','selecty','offx','offy','dragx','dragy','trackBounds'])(props)
+  let pass = R.omit(['x','y','startx','starty','endx','endy','clickx','clicky','selectx','selecty','offx','offy','dragx','dragy','trackBounds','shiftxpct','shiftypct','ismousedown'])(props)
   pass = { ...pass, tooltip: tooltip, settooltip: settooltip }
   const propsToChildren = passExceptChildren(pass)
   return(
@@ -119,7 +119,7 @@ const ToolTipMap = (props) => {
 // Much easier with this setup to make maps of any base geo 
 // unit I want, or combinations thereof.
 const UsCounty = (props) => {
-  console.log('Hit UsCounty, props: ',props)
+  /* console.log('Hit UsCounty, props: ',props) */
   return(
    <BaseMap 
       projection={ props.projection ? props.projection : projectAlbersUsa }
@@ -144,7 +144,7 @@ const UsCounty = (props) => {
 
 // Only counties; not state lines. I think it looks odd this way.  
 const UsCountyOnly = (props) => {
-  console.log('Hit UsCountyOnly, props: ',props)
+  /* console.log('Hit UsCountyOnly, props: ',props) */
   return(
    <BaseMap 
      projection={ props.projection ? props.projection : projectAlbersUsa }
@@ -165,7 +165,7 @@ const UsCountyOnly = (props) => {
 // Much easier with this setup to make maps of any base geo 
 // unit I want, or combinations thereof.
 const UsState = (props) => {
-  console.log('Hit UsState, props: ',props)
+  /* console.log('Hit UsState, props: ',props) */
   return(
    <BaseMap 
      projection={ props.projection ? props.projection : projectAlbersUsa }
@@ -182,7 +182,6 @@ const UsState = (props) => {
   )
 }
 
-
 const UsCountyMap = (props) => {
   const geocounty = useLoadgeo(props.getcounties,'county')
   const [highlight, deHighlight] = createHighlight()
@@ -196,7 +195,7 @@ const UsCountyMap = (props) => {
     <GeoSvg key='countyfeatures'
       topology={ geocounty }
       topopath={'county'}
-      datadecorate={ props.countydatacolr ? props.countydatacolor : quantile(GnYlRd73) }
+      datadecorate={ props.countydatacolor ? props.countydatacolor : quantile(GnYlRd73) }
       styling={props.style}
       datastyling={props.datastyle}
       highlight={highlight({'stroke-width':2, fill:'#5d6d7e'})}

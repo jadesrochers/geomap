@@ -11,7 +11,10 @@
     },
     "description": "Components to create feature maps using SVG and a minimal amount of d3",
     "keywords": [
-        "react"
+        "react",
+	"geographic",
+	"map",
+	"d3"
     ],
     "dependencies": {
         "@jadesrochers/legends": "^0.1.2",

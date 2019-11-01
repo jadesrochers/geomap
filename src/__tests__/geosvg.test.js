@@ -13,20 +13,27 @@ describe('svgtool tests', () => {
     let countyselection = {type: countygeojson['type'], features: R.slice(0,50,countygeojson['features'])}
     /* console.log('Choose data: ', countyselection) */
     let countydata = topojson.topology({county: countyselection})
-    let wrapper = mount(<svg>
+    let wrapper = mount(<div>
      <GeoSvg 
       key='testfeatures'
       topology={ countydata }
       topopath={'county'}
       projection={ projectAlbersUsa }
+      dataselect='CENSUSAREA'
       scaling={900}
-      width={300} height={200}
+      width={300} 
+      height={200}
      />
-    </svg>) 
+    </div>) 
     /* console.log(wrapper.debug()) */
     // I could check some paths in more detail,
     // but this gives a pretty good idea with much less work.
     expect(wrapper.find('path').length).toEqual(50)
+    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('dataselect','CENSUSAREA')
+    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('scaling',900)
+    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('width',300)
+    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('height',200)
+
   });
 
 })
