@@ -98,7 +98,10 @@ const BaseMap = (props) => {
 const ToolTipMap = (props) => {
   const [tooltip, settooltip] = useState(false)
 
-  let pass = R.omit(['x','y','startx','starty','endx','endy','clickx','clicky','selectx','selecty','offx','offy','dragx','dragy','trackBounds','shiftxpct','shiftypct','ismousedown'])(props)
+  let pass = R.omit(['x','y','startx','starty','endx',
+  'endy','clickx','clicky','selectx','selecty','offx',
+  'offy','dragx','dragy','trackBounds','shiftxpct',
+  'shiftypct','ismousedown'])(props)
   pass = { ...pass, tooltip, settooltip }
   const propsToChildren = passExceptChildren(pass)
   return(
