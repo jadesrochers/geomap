@@ -15,8 +15,8 @@ const useGeoMemo = (input) => {
 }
 
 const useFeatureMemo = (input) => {
-  let path = useMemo(()=> input.geopath(input.feature),[input.feature.properties[input.nameselect]])
-  let bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties[input.nameselect]])
+  let path = useMemo(()=> input.geopath(input.feature),[input.feature.properties[input.featurekey]])
+  let bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties[input.featurekey]])
   return { path, bounds }
 }
 
@@ -44,9 +44,9 @@ const GeoFeature = (props) => {
 const GeoSvg = (props) => {
   let { features, projection, geopath } = useGeoMemo(props)
   let colorize = props.datadecorate ? props.datadecorate(props.data) : undefined
-  let nameselect = (props.nameselect ? props.nameselect : 'GEO_ID')
+  let featurekey = (props.featurekey ? props.featurekey : 'GEO_ID')
   let pass = R.omit(['data'])(props)
-  let passalong = { geopath, colorize, nameselect, ...pass }
+  let passalong = { geopath, colorize, featurekey, ...pass }
     
   useMemo(() => {
     if(colorize && props.data){ props.setdatadisplay(() => colorize) }
@@ -56,8 +56,8 @@ const GeoSvg = (props) => {
       { useMemo(() => {
         return (
         features.map((feature) => <GeoFeature 
-        key={feature.properties[nameselect]}
-        data={props.data ? props.data[feature.properties[nameselect]] : undefined}
+        key={`${feature.properties[featurekey]}${Math.round(Math.random()*1000)}`}
+        data={props.data ? props.data[feature.properties[featurekey]] : undefined}
         feature={feature}
         { ...passalong }
       />)) },[props.data, features.length, props.limits])}
