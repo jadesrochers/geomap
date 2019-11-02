@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect  } from 'react'
 import * as R from 'ramda'
 import { geoAlbersUsa } from 'd3-geo'
 import { scaleQuantile } from 'd3-scale';
@@ -18,14 +18,12 @@ const flexColumnCenter = {display: "flex", alignItems: "center" , flexDirection:
 const blackOutline = {outline: '1px solid #000', margin: '2px' }
 const whitefill = {backgroundColor: '#FFF' }
 
-const defaultHighlight = {'stroke-width':2, fill:'#5d6d7e'}
-
 const projectAlbersUsa = (scale) => geoAlbersUsa().scale(scale).translate([425, 220])
 
 const useLoadgeo = (dataget, topotype) => {
   const [geodata, setgeodata] = useState(undefined)
-  React.useEffect(()=> {
-  let rawgeo = {}
+  useEffect(()=> {
+  const rawgeo = {}
   let datagetter
     if(typeof dataget === "function"){
       datagetter = async () => {
@@ -48,8 +46,7 @@ const GeoMap = (props) => {
   const [datadisplay, setdatadisplay] = useState(false)
   // Props I can pass: scaling, limitHook, projection, data(maybe)
   let pass = R.pipe(R.dissoc('height'), R.dissoc('width'))(props)
-  pass = { ...pass, datadisplay: datadisplay, setdatadisplay: setdatadisplay,
-      limits: props.limitHook.xlimits}
+  pass = { ...pass, datadisplay, setdatadisplay, limits: props.limitHook.xlimits}
 
   const propsToChildren = passExceptChildren(pass)
 
@@ -76,11 +73,9 @@ const BaseMap = (props) => {
   const xsize=(props.viewxsize ? props.viewxsize : 800)
   const ysize=(props.viewysize ? props.viewysize : 450)
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(2.0, 1.0, xsize, ysize)
-  let pass = { ...props, scale: scale, pan: pan,
-      zoomin: zoomin, zoomout: zoomout,
-      shiftxpct: shiftxpct, shiftypct: shiftypct}
+  const pass = { ...props, scale, pan,
+      zoomin, zoomout, shiftxpct, shiftypct}
 
-  const propsToChildren = passExceptChildren(props)
   return(
     <GeoMap 
       projection={props.projection }
@@ -91,7 +86,7 @@ const BaseMap = (props) => {
       <SelectBase  key='selectioncontrol' width={'99%'} height={'99%'} sizex={xsize} sizey={ysize} cssStyles={[blackOutline, whitefill]} >
         <ViewBoxZoomPan key='viewbox' width={'99%'} height={'99%'} viewBox={`0 0 ${xsize} ${ysize}`}>
            <MouseRect key='mousecapture' height="99%" width="99%" />
-           {props.children}
+             {props.children}
         </ViewBoxZoomPan>
       </SelectBase>
       <ZoomButtons key='zoombutton' xoffset='90%' yoffset='90%'/>
@@ -104,7 +99,7 @@ const ToolTipMap = (props) => {
   const [tooltip, settooltip] = useState(false)
 
   let pass = R.omit(['x','y','startx','starty','endx','endy','clickx','clicky','selectx','selecty','offx','offy','dragx','dragy','trackBounds','shiftxpct','shiftypct','ismousedown'])(props)
-  pass = { ...pass, tooltip: tooltip, settooltip: settooltip }
+  pass = { ...pass, tooltip, settooltip }
   const propsToChildren = passExceptChildren(pass)
   return(
    <React.Fragment>
@@ -185,7 +180,7 @@ const UsState = (props) => {
 const UsCountyMap = (props) => {
   const geocounty = useLoadgeo(props.getcounties,'county')
   const [highlight, deHighlight] = createHighlight()
-  let pass = R.dissoc('style')(props)
+  const pass = R.dissoc('style')(props)
 
   if( ! geocounty ){
     return null
@@ -207,7 +202,7 @@ const UsCountyMap = (props) => {
 
 const UsStateStaticMap = (props) => {
   const geostate = useLoadgeo(props.getstates,'state')
-  let pass = R.dissoc('style')(props)
+  const pass = R.dissoc('style')(props)
   if( ! geostate){
     return null
   }
@@ -227,7 +222,7 @@ const UsStateMap = (props) => {
   /* console.log('UsStateMap props: ',props) */
   const [highlight, deHighlight] = createHighlight()
   const geostate = useLoadgeo(props.getstates,'state')
-  let pass = R.dissoc('style')(props)
+  const pass = R.dissoc('style')(props)
   if( ! geostate){
     return null
   }

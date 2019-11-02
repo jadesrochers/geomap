@@ -4,7 +4,7 @@ import { ToolTipSvg } from '../svgtools'
 
 describe('svgtool tests', () => {
   test('Render a tooltip, check text and coordinates', () => {
-    let wrapper = mount(<svg>
+    const wrapper = mount(<svg>
      <ToolTipSvg 
      key='tooltip1' width={120} height={50}
      viewBox='0 0 300 200'
@@ -22,7 +22,7 @@ describe('svgtool tests', () => {
   });
 
   test('Render a tooltip out of bounds and check correction', () => {
-    let wrapper = mount(<svg>
+    const wrapper = mount(<svg>
      <ToolTipSvg 
      key='tooltip1' width={120} height={50}
      viewBox='0 0 300 200'
@@ -40,7 +40,7 @@ describe('svgtool tests', () => {
   });
 
   test('Render a tooltip with custom data key', () => {
-    let wrapper = mount(<svg>
+    const wrapper = mount(<svg>
      <ToolTipSvg 
      key='tooltip1' width={120} height={50}
      tooltipkey='abrev'

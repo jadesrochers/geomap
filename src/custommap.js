@@ -35,7 +35,7 @@ const GenericMap = (props) => {
   // Since the feature type is unknown, need a featurename argument
   const geofeatures = useLoadgeo(props.getgeofeat, props.featurename)
   const [highlight, deHighlight] = createHighlight()
-  let pass = R.dissoc('style')(props)
+  const pass = R.dissoc('style')(props)
 
   if( ! geofeatures ){
     return null

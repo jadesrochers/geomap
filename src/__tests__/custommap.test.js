@@ -1,6 +1,6 @@
 import React from 'react';
 import * as R from 'ramda'
-import { shallow, mount } from '../enzyme';
+import { mount } from '../enzyme';
 import { matchers } from 'jest-emotion'  
 import { CustomMap } from '../custommap'
 import { act } from 'react-dom/test-utils';
@@ -10,16 +10,16 @@ expect.extend(matchers)
 
 
 describe('custom map tests',  () => {
-  let stateProm = () => {  
-    let stateselection = {type: stategeojson['type'], features: R.slice(0,25,stategeojson['features'])}
+  const stateProm = () => {  
+    const stateselection = {type: stategeojson.type, features: R.slice(0,25,stategeojson.features)}
     return Promise.resolve(stateselection)  
   }
 
   test('Render the Custom map; takes any data, bounds, scaling', async () => {
     let wrapper
-    let geofeatures = {
-      type: stategeojson["type"],
-      features: stategeojson["features"]
+    const geofeatures = {
+      type: stategeojson.type,
+      features: stategeojson.features
     };
 
     const dataarr = Array.from({length: 60}, (v, k) => k+1); 

@@ -1,9 +1,8 @@
 import React from 'react';
 import * as R from 'ramda'
-import { shallow, mount } from '../enzyme';
-import { UsCounty, UsState, CustomMap } from '../usmaps'
+import { mount } from '../enzyme';
+import { UsCounty, UsState } from '../usmaps'
 import { act } from 'react-dom/test-utils';
-import * as topojson from 'topojson'
 import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
 import { matchers } from 'jest-emotion'  

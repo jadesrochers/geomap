@@ -8,22 +8,22 @@ import * as R from 'ramda';
 // useMemo Hooks that consolidate some memoize operations specific
 // to geosvg features
 const useGeoMemo = (input) => {
-  let features = useMemo(() => topojson.feature(input.topology, input.topology.objects[input.topopath]).features,[input.topopath])
-  let projection = useMemo(() => input.projection(input.scaling), [input.scaling])
-  let geopath = useMemo(() => geoPath(projection), [input.scaling])
+  const features = useMemo(() => topojson.feature(input.topology, input.topology.objects[input.topopath]).features,[input.topopath])
+  const projection = useMemo(() => input.projection(input.scaling), [input.scaling])
+  const geopath = useMemo(() => geoPath(projection), [input.scaling])
   return { features, projection, geopath }
 }
 
 const useFeatureMemo = (input) => {
-  let path = useMemo(()=> input.geopath(input.feature),[input.feature.properties[input.featurekey]])
-  let bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties[input.featurekey]])
+  const path = useMemo(()=> input.geopath(input.feature),[input.feature.properties[input.featurekey]])
+  const bounds = useMemo(() => input.geopath.bounds(input.feature),[input.feature.properties[input.featurekey]])
   return { path, bounds }
 }
 
 const GeoFeature = (props) => {
-  let { path, bounds } = useFeatureMemo(props)
+  const { path, bounds } = useFeatureMemo(props)
   let styles = R.clone(props.styling)
-  let data = props.data, limits = props.limits, feature = props.feature
+  const data = props.data, limits = props.limits, feature = props.feature
   if (data && data>limits.min && data<limits.max) {
      styles.fill = props.colorize(data);
      styles = { ...styles, ...props.datastyling }
@@ -42,11 +42,11 @@ const GeoFeature = (props) => {
 }
 
 const GeoSvg = (props) => {
-  let { features, projection, geopath } = useGeoMemo(props)
-  let colorize = props.datadecorate ? props.datadecorate(props.data) : undefined
-  let featurekey = (props.featurekey ? props.featurekey : 'GEO_ID')
-  let pass = R.omit(['data'])(props)
-  let passalong = { geopath, colorize, featurekey, ...pass }
+  const { features, geopath } = useGeoMemo(props)
+  const colorize = props.datadecorate ? props.datadecorate(props.data) : undefined
+  const featurekey = (props.featurekey ? props.featurekey : 'GEO_ID')
+  const pass = R.omit(['data'])(props)
+  const passalong = { geopath, colorize, featurekey, ...pass }
     
   useMemo(() => {
     if(colorize && props.data){ props.setdatadisplay(() => colorize) }

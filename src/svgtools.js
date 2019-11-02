@@ -1,9 +1,9 @@
 import React from 'react';
 import * as R from 'ramda';
 
-var Foreignobject = (props) => {
-  let bounds = props.tooltip.bounds
-  let viewarr = R.map(parseInt, R.split(' ',props.viewBox))
+const Foreignobject = (props) => {
+  const bounds = props.tooltip.bounds
+  const viewarr = R.map(parseInt, R.split(' ',props.viewBox))
   let x = (bounds[1][0] + bounds[0][0])/2 - props.width/2
   let y = (bounds[0][1]) - (props.height + 10)
   if(y < viewarr[1]){
@@ -18,7 +18,7 @@ var Foreignobject = (props) => {
     y = (bounds[1][1] + bounds[0][1])/2 - props.height/2
   }
 
-  let defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.8}
+  const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.8}
 
   return(
    <React.Fragment>
