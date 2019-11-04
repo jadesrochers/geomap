@@ -5,7 +5,7 @@ import filesize from 'rollup-plugin-filesize';
 
 export default {
     input: './index.js',
-    external: ['react', 'react-dom', '@emotion/core', 'ramda'],
+    external: ['react', 'react-dom', '@emotion/core'],
     output: [
       {
           file: './build/cjs.js',
