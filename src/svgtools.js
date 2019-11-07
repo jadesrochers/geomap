@@ -23,7 +23,7 @@ const Foreignobject = (props) => {
   return(
    <React.Fragment>
    <rect x={x} y={y} width={props.width} height={props.height}
-    style={(props.styles ? props.style : defaultstyle)}
+    style={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
     />
    <foreignObject className={props.className}
      width={props.width}  
@@ -41,10 +41,11 @@ const Createtooltip = (props) => {
   const data = props.tooltip.data ? Math.round(props.tooltip.data) : 'No Value'
   const featprops = props.tooltip.feature.properties
   const defaultname = featprops.NAME ? 'NAME' : 'name'
+  const defaultstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '80%', height: props.height, width: props.width}
   const name = props.tooltipkey ? props.tooltipkey : defaultname
   return(
    <div
-     style={{display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '80%', height: props.height, width: props.width}}
+     style={(props.tooltipstyle ? props.tooltipstyle : defaultstyle)}
    >
      {featprops[name]} <br/>
      Data: {data}

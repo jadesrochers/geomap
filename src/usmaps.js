@@ -149,7 +149,15 @@ const BaseMap = props => {
   );
 };
 
-
+// Arguments it can take: 
+// getcounties/ getstates to load in geojson 
+// data - to pass data
+// statestyle and countystyle to specify style for blank features
+// countydatastyle to style counties with data
+// colorize - a higher order function that determines color for data 
+// tooltipstyle, tooltiprectstyle - to configure the tooltip appearance 
+// legendstyle - to configure stlying for the legend
+// formatter - format for data values in legend and tooltip 
 const UsMap = (props) => {
 
   return(
@@ -213,6 +221,7 @@ const UsCountyMap = (props) => {
 
 const SvgCounty = props => {
   const geocounty = useLoadgeo(props.getcounties, "county");
+  const defaulthighlight = { "stroke-width": 2, fill: "#5d6d7e" }
   const [highlight, deHighlight] = createHighlight();
   const pass = R.dissoc("style")(props);
   if (!geocounty) {
@@ -229,7 +238,7 @@ const SvgCounty = props => {
       }
       style={props.style}
       datastyle={props.datastyle}
-      highlight={highlight({ "stroke-width": 2, fill: "#5d6d7e" })}
+      highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       {...pass}
     />
@@ -259,6 +268,7 @@ const SvgStateStatic = props => {
 const SvgState = props => {
   /* console.log('UsStateMap props: ',props) */
   const [highlight, deHighlight] = createHighlight();
+  const defaulthighlight = { "stroke-width": 2, fill: "#5d6d7e" }
   const geostate = useLoadgeo(props.getstates, "state");
   const pass = R.dissoc("style")(props);
   if (!geostate) {
@@ -275,7 +285,7 @@ const SvgState = props => {
       colorize={
         props.colorize ? props.colorize : quantile(GnYlRd73)
       }
-      highlight={highlight({ "stroke-width": 2, fill: "#5d6d7e" })}
+      highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       {...pass}
     />
