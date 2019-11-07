@@ -56,6 +56,7 @@ const useLoadgeo = (dataget, topotype) => {
 // Geomap sets up the barscale for a map. otherwise it just
 // passes all props to the children, which should be a map.
 const GeoMap = props => {
+  // This is a state var to update colorizing fcn for legend(BarScale)
   const [datadisplay, setdatadisplay] = useState(false);
   // Props I can pass: scaling, limitHook, projection, data(maybe)
   let pass = R.pipe(
@@ -66,7 +67,7 @@ const GeoMap = props => {
     ...pass,
     datadisplay,
     setdatadisplay,
-    limits: props.limitHook.xlimits
+    limits: props.limitHook.xlimits ? props.limitHook.xlimits : undefined
   };
 
   const propsToChildren = passExceptChildren(pass);
@@ -223,8 +224,8 @@ const SvgCounty = props => {
       key="countyfeatures"
       topology={geocounty}
       topopath={"county"}
-      datadecorate={
-        props.countydatacolor ? props.countydatacolor : quantile(GnYlRd73)
+      colorize={
+        props.colorize ? props.colorize : quantile(GnYlRd73)
       }
       style={props.style}
       datastyle={props.datastyle}
@@ -271,8 +272,8 @@ const SvgState = props => {
       topopath={"state"}
       style={props.style}
       datastyle={props.datastyle}
-      datadecorate={
-        props.statedatacolor ? props.statedatacolor : quantile(GnYlRd73)
+      colorize={
+        props.colorize ? props.colorize : quantile(GnYlRd73)
       }
       highlight={highlight({ "stroke-width": 2, fill: "#5d6d7e" })}
       deHighlight={deHighlight}

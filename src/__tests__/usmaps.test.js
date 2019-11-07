@@ -23,12 +23,28 @@ describe('usmaps tests',  () => {
       return Promise.resolve(countyselection)  
     }
 
+    const countyfeatures = {
+      type: countygeojson.type,
+      features: countygeojson.features
+    };
+
+    const dataarr = Array.from({length: 60}, (v, k) => k+1); 
+    let n = 0;
+    const fakedata = countyfeatures.features.map(feat => {
+    const item = {};
+    item[feat.properties.GEO_ID] = dataarr[n];
+    n++;
+    return item;
+  });
+    const data = R.mergeAll(fakedata);
+
+
   test('Render the UsMap (both states and counties)', async () => {
     let wrapper
     await act( async () => {
       wrapper = mount(<svg>
        <UsMap
-         geodata={undefined}
+         data={data}
          statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
          statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
          countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
@@ -43,8 +59,8 @@ describe('usmaps tests',  () => {
     wrapper.update()
     /* console.log(wrapper.debug()) */
     expect(wrapper.find('path').length).toEqual(75)
-    expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#ccd1d1')
-    expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#f4f6f6')
+    expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#bcc6c6')
+    expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#78c679')
 
     expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('getstates')
     expect(wrapper.find('GeoSvg').at(1).props()).toHaveProperty('getcounties')

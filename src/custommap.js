@@ -22,7 +22,8 @@ const CustomMap = (props) => {
       { ...props }
    >
     <MouseRect key="mousecapture" height="99%" width="99%" />
-    <GenericMap key="genericmap1"
+    <SvgGeneric 
+      key="genericmap1"
       style={props.style} 
       datastyle={props.datastyle} 
     />
@@ -30,7 +31,7 @@ const CustomMap = (props) => {
   )
 }
 
-const GenericMap = (props) => {
+const SvgGeneric = (props) => {
   // Since the feature type is unknown, need a featurename argument
   const geofeatures = useLoadgeo(props.getgeofeat, props.featurename)
   const [highlight, deHighlight] = createHighlight()
@@ -42,10 +43,10 @@ const GenericMap = (props) => {
   /* console.log('geocounty object value:\n',geocounty) */
   return(
     <GeoSvg 
-      key={props.featurename}
+      key={'custom_geosvg'}
       topology={ geofeatures }
       topopath={props.featurename}
-      datadecorate={ props.datacolor ? props.datacolor : quantile(GnYlRd73) }
+      colorize={ props.colorize ? props.colorize : quantile(GnYlRd73) }
       style={props.style}
       datastyle={props.datastyle}
       highlight={highlight(props.highlightStyle ? props.highlightStyle : defaultHighlight)}

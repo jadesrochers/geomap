@@ -31,9 +31,13 @@ const GeoFeature = props => {
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
-  if (data && data > limits.min && data < limits.max) {
-    styles.fill = props.colorize(data);
+  if (data && limits && data > limits.min && data < limits.max) {
+    styles.fill = props.colorfcn(data);
     styles = { ...styles, ...props.datastyle };
+    /* console.log('Geosvg, data block data: ', data) */
+    /* console.log('styles.fill: ', styles.fill) */
+    /* console.log('datastyle: ', props.datastyle) */
+    /* console.log('styles: ', styles) */
   }
   return (
     <path
@@ -50,22 +54,21 @@ const GeoFeature = props => {
     />
   );
 };
-
 const GeoSvg = props => {
   const { features, geopath } = useGeoMemo(props);
   const [tooltip, settooltip] = useState(false);
-  const colorize = props.datadecorate
-    ? props.datadecorate(props.data)
-    : undefined;
+  // Pass all data to set up the colorizing function
+  const colorfcn = props.colorize ? props.colorize(props.data) : undefined;
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
-  const passalong = { geopath, colorize, featurekey, settooltip, ...pass };
 
   useMemo(() => {
-    if (colorize && props.data) {
-      props.setdatadisplay(() => colorize);
+    if (colorfcn && props.data) {
+      props.setdatadisplay(() => colorfcn);
     }
   }, [props.data]);
+
+  const passalong = { geopath, colorfcn, featurekey, settooltip, ...pass };
   return (
     <svg css={props.cssStyles ? props.cssStyles : undefined}>
       {useMemo(() => {
