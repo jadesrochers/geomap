@@ -1,7 +1,8 @@
 import React from 'react'
 import * as R from 'ramda'
 import { createHighlight } from '@jadesrochers/reacthelpers'
-import { useLoadgeo, BaseMap, ToolTipMap } from './usmaps'
+import { MouseRect } from "@jadesrochers/selectbox";
+import { useLoadgeo, BaseMap } from './usmaps'
 import { GeoSvg } from './geosvg'
 import { geoAlbersUsa } from 'd3-geo'
 import { scaleQuantile } from 'd3-scale';
@@ -20,13 +21,11 @@ const CustomMap = (props) => {
       scaling={props.scaling ? props.scaling : 975}
       { ...props }
    >
-     <ToolTipMap key='customtooltip' >
-      <GenericMap key="genericmap1"
-        style={props.style} 
-        datastyle={props.datastyle} 
-      />
-     </ToolTipMap>
-
+    <MouseRect key="mousecapture" height="99%" width="99%" />
+    <GenericMap key="genericmap1"
+      style={props.style} 
+      datastyle={props.datastyle} 
+    />
    </BaseMap>
   )
 }
@@ -47,8 +46,8 @@ const GenericMap = (props) => {
       topology={ geofeatures }
       topopath={props.featurename}
       datadecorate={ props.datacolor ? props.datacolor : quantile(GnYlRd73) }
-      styling={props.style}
-      datastyling={props.datastyle}
+      style={props.style}
+      datastyle={props.datastyle}
       highlight={highlight(props.highlightStyle ? props.highlightStyle : defaultHighlight)}
       deHighlight={deHighlight}
       { ...pass }

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as R from 'ramda'
 import { mount } from '../enzyme';
-import { UsCounty, UsState } from '../usmaps'
+import { UsMap, UsStateMap, UsCountyMap } from '../usmaps'
 import { act } from 'react-dom/test-utils';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
@@ -23,11 +23,11 @@ describe('usmaps tests',  () => {
       return Promise.resolve(countyselection)  
     }
 
-  test('Render the UsCounty map (also has states)', async () => {
+  test('Render the UsMap (both states and counties)', async () => {
     let wrapper
     await act( async () => {
       wrapper = mount(<svg>
-       <UsCounty
+       <UsMap
          geodata={undefined}
          statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
          statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
@@ -37,7 +37,7 @@ describe('usmaps tests',  () => {
          getstates={stateProm}
          getcounties={countyProm}
        >
-       </UsCounty>
+       </UsMap>
     </svg>)  
     })
     wrapper.update()
@@ -53,23 +53,46 @@ describe('usmaps tests',  () => {
     expect(wrapper.find('GeoFeature').at(70)).toHaveStyleRule('fill','none')
   });
 
-  test('Render the UsState map; takes states only', async () => {
+  test('Render the UsState map', async () => {
     let wrapper
     await act( async () => {
       wrapper = mount(<svg>
-       <UsState
+       <UsStateMap
          geodata={undefined}
          statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
          statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
          limitHook={{xlimits: {min: 0, max: 100}}}
          getstates={stateProm}
        >
-       </UsState>
+       </UsStateMap>
     </svg>)  
     })
     wrapper.update()
     /* console.log(wrapper.debug()) */
     expect(wrapper.find('path').length).toEqual(25)
+  });
+
+  test('Render the UsCounty map', async () => {
+    let wrapper
+    await act( async () => {
+      wrapper = mount(<svg>
+       <UsCountyMap
+         geodata={undefined}
+         countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
+         countydatastyle={{ stroke: '#bcc6c6' }}
+         limitHook={{xlimits: {min: 0, max: 100}}}
+         getcounties={countyProm}
+       >
+       </UsCountyMap>
+    </svg>)  
+    })
+    wrapper.update()
+    /* console.log(wrapper.debug()) */
+    expect(wrapper.find('path').length).toEqual(50)
+    expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#ccd1d1')
+    expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#f4f6f6')
+
+    expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('getcounties')
   });
 
 })
