@@ -24,7 +24,8 @@ used to colorize the counties.
 US states, no counties. Any data added will be used for the states.   
 3. UsCountyMap  
 This map does counties without state boundaries.  
-**Example here**  
+
+**Example of UsStateMap**  
 [US State map with generated data](https://codesandbox.io/s/usstate-data-interactive-map-koe14)
 
 #### CustomMap component can be used to create any map you like  
@@ -116,7 +117,8 @@ will look at feature.properties.GEO_ID in this case.
 7. formatter - specifies how to format the data in toolip and on the legend  
 8. getstates/getcounties specifies an object or function to get state/county  
 geojson. It will try and handle objects/requests of all sorts well.  
-**Example US map**  
+
+**Example UsMap**  
 [US map with generated data](https://codesandbox.io/s/us-data-choropleth-map-gul5q)
 
 #### Creating your own custom map  
@@ -124,7 +126,7 @@ You will need to import the CustomMap component, have your own data set up,
 and provide a projection/scaling info.  
 The example I show here is for setting up a world map, but the process is  
 similar regardless of the map.
-**Example of this map on codesandbox**  
+**Example of CustomMap, world map in this case**  
 [World map with generated data](https://codesandbox.io/s/worldmapreactinteractive-7mhnx)
 **Important args to specify -**  
 1. featurekey - Non-us datasets will not have the GEO_ID default, so you  
