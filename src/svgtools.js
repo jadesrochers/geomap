@@ -45,7 +45,7 @@ const Createtooltip = (props) => {
   const name = props.tooltipkey ? props.tooltipkey : defaultname
   return(
    <div
-     style={(props.tooltipstyle ? props.tooltipstyle : defaultstyle)}
+     style={ [ defaultstyle, (props.tooltipstyle ? props.tooltipstyle : undefined) ] }
    >
      {featprops[name]} <br/>
      Data: {data}
