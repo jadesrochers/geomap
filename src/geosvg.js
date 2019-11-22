@@ -34,15 +34,11 @@ const GeoFeature = props => {
   if (data && limits && data > limits.min && data < limits.max) {
     styles.fill = props.colorfcn(data);
     styles = { ...styles, ...props.datastyle };
-    /* console.log('Geosvg, data block data: ', data) */
-    /* console.log('styles.fill: ', styles.fill) */
-    /* console.log('datastyle: ', props.datastyle) */
-    /* console.log('styles: ', styles) */
   }
   return (
     <path
       d={path}
-      css={{ ...styles, shapeRendering: "crispEdges" }}
+      css={{ ...styles, shapeRendering: "geometricPrecision" }}
       onMouseOver={current => {
         props.highlight && props.highlight(current);
         props.settooltip && props.settooltip({ feature, data, path, bounds });
