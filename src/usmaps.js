@@ -163,7 +163,7 @@ const UsMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={975}
+    scaling={props.scaling ? props.scaling : 975}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -186,7 +186,7 @@ const UsStateMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={975}
+    scaling={props.scaling ? props.scaling : 975}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -204,7 +204,7 @@ const UsCountyMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={975}
+    scaling={props.scaling ? props.scaling : 975}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
