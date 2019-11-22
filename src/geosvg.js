@@ -12,10 +12,8 @@ const useGeoMemo = input => {
   const features = useMemo(() =>
       topojson.feature(input.topology, input.topology.objects[input.topopath]).features, 
    [input.topopath]);
-  const projection = useMemo(() => input.projection(input.scaling), 
-  [ input.scaling ]);
-  const geopath = useMemo(() => geoPath(projection), [input.scaling]);
-  return { features, projection, geopath };
+  const geopath = useMemo(() => geoPath(input.projection), [input.scaling]);
+  return { features, geopath };
 };
 
 const useFeatureMemo = input => {

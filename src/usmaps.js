@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { scaleQuantile } from "d3-scale";
@@ -26,9 +26,10 @@ const flexColumnCenter = {
 
 const blackOutline = { outline: "1px solid #000", margin: "2px" };
 const whitefill = { backgroundColor: "#FFF" };
-const projectAlbersUsa = scale =>
+const projectAlbersUsa = R.curry( (scale, xtrans, ytrans) =>
   geoAlbersUsa()
-    .scale(scale);
+    .scale(scale)  
+    .translate([xtrans, ytrans]) );
 
 const useLoadgeo = (dataget, topotype) => {
   const [geodata, setgeodata] = useState(undefined);
@@ -104,15 +105,22 @@ const BaseMap = props => {
   const ysize = props.viewysize ? props.viewysize : 450;
   const xanchor = props.xanchor ? props.xanchor : 0;
   const yanchor = props.yanchor ? props.yanchor : 0;
+  const projxtrans = props.projxtrans ? props.projxtrans : 0;
+  const projytrans = props.projytrans ? props.projytrans : 0;
 
+  const projection = useMemo(() => props.projection(props.scaling, projxtrans, projytrans), 
+  [ props.scaling, projxtrans, projytrans ]);
+ 
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(
     2.0,
     1.0,
     xsize,
     ysize
   );
+  const passprops = R.omit(["project"])(props);
   const pass = {
-    ...props,
+    ...passprops,
+    projection,
     scale,
     pan,
     zoomin,
@@ -123,7 +131,7 @@ const BaseMap = props => {
   // console.log('what are the children: ', props.children)
   return (
     <GeoMap
-      projection={props.projection}
+      projection={projection}
       scaling={props.scaling ? props.scaling : 1000}
       data={props.data}
       {...pass}
@@ -165,7 +173,7 @@ const UsMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 975}
+    scaling={props.scaling ? props.scaling : 1000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -188,7 +196,7 @@ const UsStateMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 975}
+    scaling={props.scaling ? props.scaling : 1000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -206,7 +214,7 @@ const UsCountyMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 975}
+    scaling={props.scaling ? props.scaling : 1000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />

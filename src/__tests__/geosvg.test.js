@@ -6,7 +6,7 @@ import * as R from 'ramda';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import { geoAlbersUsa } from 'd3-geo'
 
-const projectAlbersUsa = (scale) => geoAlbersUsa().scale(scale)
+const projectAlbersUsa = geoAlbersUsa().scale(1000)
 
 describe('svgtool tests', () => {
   test('Render a tooltip, check coordinates', () => {
