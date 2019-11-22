@@ -101,12 +101,12 @@ const GeoMap = props => {
 // BaseMap takes Svg rendering children and puts them inside
 // a viewbox with zoom/pan and mouse tracking capabilities
 const BaseMap = props => {
-  const xsize = props.viewxsize ? props.viewxsize : 800;
-  const ysize = props.viewysize ? props.viewysize : 450;
+  const xsize = props.viewxsize ? props.viewxsize : 1700;
+  const ysize = props.viewysize ? props.viewysize : 950;
   const xanchor = props.xanchor ? props.xanchor : 0;
   const yanchor = props.yanchor ? props.yanchor : 0;
-  const projxtrans = props.projxtrans ? props.projxtrans : 0;
-  const projytrans = props.projytrans ? props.projytrans : 0;
+  const projxtrans = props.projxtrans ? props.projxtrans : 900;
+  const projytrans = props.projytrans ? props.projytrans : 470;
 
   const projection = useMemo(() => props.projection(props.scaling, projxtrans, projytrans), 
   [ props.scaling, projxtrans, projytrans ]);
@@ -173,7 +173,7 @@ const UsMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 1000}
+    scaling={props.scaling ? props.scaling : 2000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -196,7 +196,7 @@ const UsStateMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 1000}
+    scaling={props.scaling ? props.scaling : 2000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
@@ -214,7 +214,7 @@ const UsCountyMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
-    scaling={props.scaling ? props.scaling : 1000}
+    scaling={props.scaling ? props.scaling : 2000}
     {...props}
     >
       <MouseRect key="mousecapture" height="99%" width="99%" />
