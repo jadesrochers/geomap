@@ -28,8 +28,7 @@ const blackOutline = { outline: "1px solid #000", margin: "2px" };
 const whitefill = { backgroundColor: "#FFF" };
 const projectAlbersUsa = scale =>
   geoAlbersUsa()
-    .scale(scale)
-    .translate([425, 220]);
+    .scale(scale);
 
 const useLoadgeo = (dataget, topotype) => {
   const [geodata, setgeodata] = useState(undefined);
@@ -103,6 +102,9 @@ const GeoMap = props => {
 const BaseMap = props => {
   const xsize = props.viewxsize ? props.viewxsize : 800;
   const ysize = props.viewysize ? props.viewysize : 450;
+  const xanchor = props.xanchor ? props.xanchor : 0;
+  const yanchor = props.yanchor ? props.yanchor : 0;
+
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(
     2.0,
     1.0,
@@ -138,7 +140,7 @@ const BaseMap = props => {
           key="viewbox"
           width={"99%"}
           height={"99%"}
-          viewBox={`0 0 ${xsize} ${ysize}`}
+          viewBox={`${xanchor} ${yanchor} ${xsize} ${ysize}`}
         >
           {props.children}
           
