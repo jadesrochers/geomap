@@ -132,7 +132,7 @@ const BaseMap = props => {
         height={"99%"}
         sizex={xsize}
         sizey={ysize}
-        cssStyles={[blackOutline, whitefill]}
+        cssStyles={[blackOutline, whitefill, (props.baseStyle ? props.baseStyle : undefined) ] }
       >
         <ViewBoxZoomPan
           key="viewbox"
