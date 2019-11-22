@@ -1,5 +1,7 @@
+/** @jsx jsx */
 import React from 'react';
 import * as R from 'ramda';
+import { jsx } from "@emotion/core";
 
 const Foreignobject = (props) => {
   const bounds = props.tooltip.bounds
@@ -45,7 +47,9 @@ const Createtooltip = (props) => {
   const name = props.tooltipkey ? props.tooltipkey : defaultname
   return(
    <div
-     style={ [ defaultstyle, (props.tooltipstyle ? props.tooltipstyle : undefined) ] }
+     css={[ defaultstyle, 
+     (props.tooltipstyle ? props.tooltipstyle : undefined) 
+     ]}
    >
      {featprops[name]} <br/>
      Data: {data}
