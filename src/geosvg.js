@@ -55,6 +55,8 @@ const GeoSvg = props => {
   const colorfcn = props.colorize ? props.colorize(props.data) : undefined;
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
+  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 120
+  const tooltipheight = props.tooltipheight ? props.tooltipheight : 50
 
   useMemo(() => {
     if (colorfcn && props.data) {
@@ -81,7 +83,7 @@ const GeoSvg = props => {
           />
         ));
       }, [props.data, features.length, props.limits])}
-      <ToolTipSvg tooltip={tooltip} {...props} width={120} height={50} />
+      <ToolTipSvg tooltip={tooltip} {...props} width={tooltipwidth} height={tooltipheight} />
     </svg>
   );
 };
