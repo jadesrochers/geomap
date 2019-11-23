@@ -55,8 +55,8 @@ const GeoSvg = props => {
   const colorfcn = props.colorize ? props.colorize(props.data) : undefined;
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
-  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 120
-  const tooltipheight = props.tooltipheight ? props.tooltipheight : 50
+  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 250
+  const tooltipheight = props.tooltipheight ? props.tooltipheight : 120 
 
   useMemo(() => {
     if (colorfcn && props.data) {
