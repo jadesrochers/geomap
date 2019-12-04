@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { geoPath } from "d3-geo";
 import * as topojson from "topojson";
 import * as R from "ramda";
@@ -9,23 +9,31 @@ import { ToolTipSvg } from "./svgtools";
 // useMemo Hooks that consolidate some memoize operations specific
 // to geosvg features
 const useGeoMemo = input => {
-  const features = useMemo(() =>
-      topojson.feature(input.topology, input.topology.objects[input.topopath]).features, 
-   [input.topopath]);
+  const features = useMemo( () => topojson.feature(input.topology, input.topology.objects[input.topopath]).features, [input.topopath]);
   const geopath = useMemo(() => geoPath(input.projection), [input.scaling]);
   return { features, geopath };
 };
 
 const useFeatureMemo = input => {
-  const featkey = input.feature.properties[input.featurekey]
-  const path = useMemo(() => input.geopath(input.feature), [ featkey ]);
-  const bounds = useMemo(() => input.geopath.bounds(input.feature), [ featkey ]);
+  const featkey = input.feature.properties[input.featurekey];
+  const path = useMemo(() => input.geopath(input.feature), [featkey]);
+  const bounds = useMemo(() => input.geopath.bounds(input.feature), [featkey]);
   return { path, bounds };
 };
+
+const clickfn = (e, x, y, props) => { 
+    if(Math.abs(x-e.clientX)<2 && Math.abs(y-e.clientY)<2){
+      props.clickFcn ? props.clickFcn(props) : undefined
+    }
+  }
+
+const setxy = (e, x, y) => { x.current = e.clientX; y.current = e.clientY }
 
 const GeoFeature = props => {
   const { path, bounds } = useFeatureMemo(props);
   let styles = R.clone(props.style);
+  const x = useRef(0)
+  const y = useRef(0)
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
@@ -35,6 +43,10 @@ const GeoFeature = props => {
   }
   return (
     <path
+      onMouseDown={(e) => setxy(e, x, y)}
+      onClick={(e) => clickfn(e, x.current, y.current, props) }
+      onTouchStart={(e) => setxy(e, x, y)}
+      onTouchEnd={(e) => clickfn(e, x.current, y.current, props)}
       d={path}
       css={{ ...styles, shapeRendering: "geometricPrecision" }}
       onMouseOver={current => {
@@ -55,8 +67,9 @@ const GeoSvg = props => {
   const colorfcn = props.colorize ? props.colorize(props.data) : undefined;
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
-  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 250
-  const tooltipheight = props.tooltipheight ? props.tooltipheight : 120 
+  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
+  const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
+  const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
 
   useMemo(() => {
     if (colorfcn && props.data) {
@@ -83,7 +96,13 @@ const GeoSvg = props => {
           />
         ));
       }, [props.data, features.length, props.limits])}
-      <ToolTipSvg tooltip={tooltip} {...props} width={tooltipwidth} height={tooltipheight} />
+      <ToolTipSvg
+        tooltip={tooltip}
+        tooltipstyle={tooltipstyle}
+        width={tooltipwidth}
+        height={tooltipheight}
+        {...props}
+      />
     </svg>
   );
 };
