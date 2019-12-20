@@ -89,6 +89,7 @@ const GeoMap = props => {
         cssStyles={props.legendstyle}
         data={props.data}
         legendstyle={props.legendstyle}
+        formatter={props.legendformatter}
         offset="23%"
         {...pass}
       />
