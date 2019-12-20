@@ -6,6 +6,7 @@ import { act } from 'react-dom/test-utils';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
 import { matchers } from 'jest-emotion'  
+import { format } from 'd3-format';
 
 expect.extend(matchers)  
 
@@ -48,6 +49,7 @@ describe('usmaps tests',  () => {
          statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
          countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
          countydatastyle={{ stroke: '#bcc6c6' }}
+         legendformatter={format('.3s')} 
          limitHook={{xlimits: {min: 0, max: 100}}}
          getstates={stateProm}
          getcounties={countyProm}
@@ -68,7 +70,10 @@ describe('usmaps tests',  () => {
 
     expect(wrapper.find('GeoFeature').at(60)).toHaveStyleRule('stroke','#707b7c')
     expect(wrapper.find('GeoFeature').at(70)).toHaveStyleRule('fill','none')
+    expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('0.006.1012.218.324.430.536.642.748.854.961.0')
+
   });
+
 
   test('Render the UsState map', async () => {
     let wrapper
