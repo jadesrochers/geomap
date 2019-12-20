@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { scaleQuantile } from "d3-scale";
+import { min, max } from "d3-array";
 import { GeoSvg } from "./geosvg";
 import * as topojson from "topojson";
 import { jsx } from "@emotion/core";
@@ -13,11 +14,13 @@ import { passExceptChildren, createHighlight } from "@jadesrochers/reacthelpers"
 const GnYlRd73 = [ "#005a32", "#238443", "#41ab5d", "#78c679", "#addd8e",
   "#d9f0a3", "#ffffcc", "#ffeda0", "#feb24c", "#f03b20" ];
 
-const quantile = R.curry((outputRange, data) =>
-  scaleQuantile()
-    .domain(R.values(data))
+const quantile = R.curry((outputRange, data) => {
+  let dataarr = R.values(data)
+  return scaleQuantile()
+    .domain([ min(dataarr) - 1, max(dataarr) + 1] )
     .range(outputRange)
-);
+});
+
 const flexColumnCenter = {
   display: "flex",
   alignItems: "center",

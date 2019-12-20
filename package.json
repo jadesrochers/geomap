@@ -23,7 +23,9 @@
         "@jadesrochers/legends": "^0.1.4",
         "@jadesrochers/reacthelpers": "^0.1.15",
         "@jadesrochers/selectbox": "^0.1.16",
+        "d3-array": "^2.4.0",
         "d3-geo": "^1.11.9",
+        "d3-scale": "^3.2.1",
         "ramda": "^0.26.1",
         "topojson": "^3.0.2"
     },

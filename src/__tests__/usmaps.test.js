@@ -38,7 +38,6 @@ describe('usmaps tests',  () => {
   });
     const data = R.mergeAll(fakedata);
 
-
   test('Render the UsMap (both states and counties)', async () => {
     let wrapper
     await act( async () => {
@@ -60,7 +59,9 @@ describe('usmaps tests',  () => {
     /* console.log(wrapper.debug()) */
     expect(wrapper.find('path').length).toEqual(75)
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#bcc6c6')
-    expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#78c679')
+    expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('fill','#238443')
+    expect(wrapper.find('GeoFeature').at(25)).toHaveStyleRule('fill','#addd8e')
+    expect(wrapper.find('GeoFeature').at(40)).toHaveStyleRule('fill','#ffffcc')
 
     expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('getstates')
     expect(wrapper.find('GeoSvg').at(1).props()).toHaveProperty('getcounties')
