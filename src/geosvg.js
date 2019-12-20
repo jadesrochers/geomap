@@ -37,7 +37,7 @@ const GeoFeature = props => {
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
-  if (data && limits && data > limits.min && data < limits.max) {
+  if (data && limits && data >= limits.min && data <= limits.max) {
     styles.fill = props.colorfcn(data);
     styles = { ...styles, ...props.datastyle };
   }

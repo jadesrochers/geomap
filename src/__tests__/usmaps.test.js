@@ -70,7 +70,7 @@ describe('usmaps tests',  () => {
 
     expect(wrapper.find('GeoFeature').at(60)).toHaveStyleRule('stroke','#707b7c')
     expect(wrapper.find('GeoFeature').at(70)).toHaveStyleRule('fill','none')
-    expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('0.006.1012.218.324.430.536.642.748.854.961.0')
+    expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('1.006.9012.818.724.630.536.442.348.254.160.0')
 
   });
 
