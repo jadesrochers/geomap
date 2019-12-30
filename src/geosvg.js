@@ -84,7 +84,7 @@ const GeoSvg = props => {
         return features.map(feature => (
           <GeoFeature
             key={`${feature.properties[featurekey]}${Math.round(
-              Math.random() * 1000
+              Math.random() * 10000
             )}`}
             data={
               props.data

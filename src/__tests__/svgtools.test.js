@@ -21,6 +21,27 @@ describe('svgtool tests', () => {
     ]))
   });
 
+  test('Render a tooltip with custom rounding', () => {
+    const wrapper = mount(<svg>
+     <ToolTipSvg 
+     key='tooltip1' width={120} height={50}
+     viewBox='0 0 300 200'
+     tooltip_round={(n) => Math.round(n*100)/100}
+     tooltip={{bounds: [[100,100], [120,120]], 
+     data: 1.937, feature: {properties: {NAME: 'Decimal'}}
+     }} 
+     />
+    </svg>) 
+    /* console.log(wrapper.debug()) */
+    expect(wrapper.text()).toEqual('Decimal Data: 1.94')
+    expect(wrapper.find('foreignObject').length).toEqual(1)
+    expect(wrapper.containsAllMatchingElements([
+      <rect x={60} y={40} /> 
+    ]))
+  });
+
+
+
   test('Render a tooltip out of bounds and check correction', () => {
     const wrapper = mount(<svg>
      <ToolTipSvg 
