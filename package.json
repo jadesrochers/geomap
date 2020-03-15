@@ -1,6 +1,6 @@
 {
     "name": "@jadesrochers/geomap",
-    "version": "0.2.16",
+    "version": "0.2.17",
     "license": "MIT",
     "author": "Jared Desrochers",
     "main": "dist/bundle.js",
