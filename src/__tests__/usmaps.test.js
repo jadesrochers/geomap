@@ -59,7 +59,7 @@ describe('usmaps tests',  () => {
     })
     wrapper.update()
     /* console.log(wrapper.debug()) */
-    expect(wrapper.find('path').length).toEqual(75)
+    expect(wrapper.find('path').length).toEqual(77)
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#bcc6c6')
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('fill','#238443')
     expect(wrapper.find('GeoFeature').at(25)).toHaveStyleRule('fill','#addd8e')
@@ -91,7 +91,7 @@ describe('usmaps tests',  () => {
     })
     wrapper.update()
     /* console.log(wrapper.debug()) */
-    expect(wrapper.find('path').length).toEqual(25)
+    expect(wrapper.find('path').length).toEqual(27)
   });
 
   test('Render the UsCounty map', async () => {
@@ -110,7 +110,7 @@ describe('usmaps tests',  () => {
     })
     wrapper.update()
     /* console.log(wrapper.debug()) */
-    expect(wrapper.find('path').length).toEqual(50)
+    expect(wrapper.find('path').length).toEqual(52)
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#ccd1d1')
     expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#f4f6f6')
 

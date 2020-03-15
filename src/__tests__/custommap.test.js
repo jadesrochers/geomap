@@ -50,7 +50,7 @@ describe('custom map tests',  () => {
     })
     wrapper.update()
     /* console.log(wrapper.debug()) */
-    expect(wrapper.find('path').length).toEqual(25)
+    expect(wrapper.find('path').length).toEqual(27)
     expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('viewBox','0 0 300 200')
     expect(wrapper.find('GeoMap').at(0).props()).toHaveProperty('scaling',500)
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#44b64c')
@@ -58,13 +58,6 @@ describe('custom map tests',  () => {
 
     expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('stroke','#44b64c')
     expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#78c679')
-
-    // Make sure the BarScale has the correct default values
-    expect(wrapper.find('BarScale').find('rect').at(0)).toHaveStyleRule('fill','#005a32')
-    expect(wrapper.find('BarScale').find('rect').at(2)).toHaveStyleRule('fill','#41ab5d')
-    expect(wrapper.find('BarScale').find('rect').at(4)).toHaveStyleRule('fill','#addd8e')
-    expect(wrapper.find('BarScale').find('rect').at(6)).toHaveStyleRule('fill','#ffffcc')
-    expect(wrapper.find('BarScale').find('rect').at(8)).toHaveStyleRule('fill','#feb24c')
 
   });
 })

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
 import * as topojson from "topojson";
 import * as R from "ramda";
@@ -9,7 +9,7 @@ import { ToolTipSvg } from "./svgtools";
 // useMemo Hooks that consolidate some memoize operations specific
 // to geosvg features
 const useGeoMemo = input => {
-  const features = useMemo( () => topojson.feature(input.topology, input.topology.objects[input.topopath]).features, [input.topopath]);
+  const features = useMemo(() => topojson.feature(input.topology, input.topology.objects[input.topopath]).features, [input.topopath]);
   const geopath = useMemo(() => geoPath(input.projection), [input.scaling]);
   return { features, geopath };
 };
@@ -71,7 +71,7 @@ const GeoSvg = props => {
   const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
   const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
 
-  useMemo(() => {
+  useEffect(() => {
     if (colorfcn && props.data) {
       props.setdatadisplay(() => colorfcn);
     }
