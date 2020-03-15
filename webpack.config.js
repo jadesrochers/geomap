@@ -18,7 +18,7 @@ const config = {
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    library: '@jadesrochers/histograminteract',
+    library: '@jadesrochers/geomap',
     filename: 'bundle.js',
     libraryTarget: 'umd',
   },
