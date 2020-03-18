@@ -155,7 +155,12 @@ const BaseMap = props => {
           
         </ViewBoxZoomPan>
       </SelectBase>
-      <ZoomButtons key="zoombutton" xoffset="90%" yoffset="90%" />
+      <ZoomButtons 
+        key="zoombutton" 
+        xoffset="90%" 
+        yoffset="90%" 
+        cssStyles={props.zoomstyle}
+       />
     </GeoMap>
   );
 };
