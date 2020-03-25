@@ -30,7 +30,7 @@
         "@emotion/core": "^10.0.28",
         "@jadesrochers/legends": "^0.1.11",
         "@jadesrochers/reacthelpers": "^0.1.21",
-        "@jadesrochers/selectbox": "^0.1.23",
+        "@jadesrochers/selectbox": "^0.1.24",
         "d3-array": "^2.4.0",
         "d3-geo": "^1.11.9",
         "d3-scale": "^3.2.1",

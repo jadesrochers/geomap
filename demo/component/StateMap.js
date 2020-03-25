@@ -46,9 +46,9 @@ const StateSvg = props => {
 
   return (
     <div
-      width="90%"
-      height="50%"
       style={{
+        width: "90vw", 
+        height: "70vh",
         display: "flex",
         alignItems: "center",
         flexDirection: "column"
