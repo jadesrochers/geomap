@@ -56,6 +56,12 @@ const useLoadgeo = (dataget, topotype) => {
 
 // Geomap sets up the barscale for a map. otherwise it just
 // passes all props to the children, which should be a map.
+// The Legend (BarScale) gets the limit hooks and datadisplay so it can 
+// setup scaling appropriately
+// Props:
+// legendstyle prop is passed to the barscale and applied as the final css
+// style object to its svg, so it should style the whole bar
+// legendformatter prop allows specifying a d3 scaling object
 const GeoMap = props => {
   // This is a state var to update colorizing fcn for legend(BarScale)
   const [datadisplay, setdatadisplay] = useState(false);
@@ -90,7 +96,6 @@ const GeoMap = props => {
         cssStyles={props.legendstyle}
         data={props.data}
         formatter={props.legendformatter}
-        elemwidth={'70%'}
         {...pass}
       />
 
