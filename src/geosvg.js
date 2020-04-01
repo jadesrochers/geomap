@@ -38,7 +38,7 @@ const GeoFeature = props => {
     limits = props.limits,
     feature = props.feature;
   if (! R.isEmpty(data) && ! R.isNil(data) && limits && data >= limits.min && data <= limits.max) {
-    styles.fill = props.colorfcn(data);
+    styles.fill = props.colorfcn.current(data);
     styles = { ...styles, ...props.datastyle };
   }
   return (
@@ -65,17 +65,23 @@ const GeoFeature = props => {
 const GeoSvg = props => {
   const { features, geopath } = useGeoMemo(props);
   const [tooltip, settooltip] = useState(false);
+  const colorfcn = useRef(false)
   // Pass all data to set up the colorizing function
-  const colorfcn = props.colorize ? props.colorize(props.data) : undefined;
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
   const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
   const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
   const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
+ 
+  useMemo(() => {
+    if (! R.isEmpty(props.data) && ! R.isNil(props.data)){
+      colorfcn.current = props.colorize ? props.colorize(props.data) : undefined;
+    }
+  }, [props.data]);
 
   useEffect(() => {
-    if (colorfcn && ! R.isEmpty(props.data) && ! R.isNil(props.data)){
-      props.setdatadisplay(() => colorfcn);
+    if (colorfcn.current && ! R.isEmpty(props.data) && ! R.isNil(props.data)){
+      props.setdatadisplay(() => colorfcn.current);
     }
   }, [props.data]);
 

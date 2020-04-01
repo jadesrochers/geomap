@@ -254,9 +254,7 @@ const SvgCounty = props => {
       key="countyfeatures"
       topology={geocounty}
       topopath={"county"}
-      colorize={
-        props.colorize ? props.colorize : quantile(GnYlRd73)
-      }
+      colorize={ props.colorize ? props.colorize : quantile(GnYlRd73) }
       style={props.style}
       datastyle={props.datastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
@@ -303,9 +301,7 @@ const SvgState = props => {
       topopath={"state"}
       style={props.style}
       datastyle={props.datastyle}
-      colorize={
-        props.colorize ? props.colorize : quantile(GnYlRd73)
-      }
+      colorize={ props.colorize ? props.colorize : quantile(GnYlRd73) }
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       {...pass}
