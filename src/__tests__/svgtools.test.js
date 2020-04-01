@@ -21,6 +21,35 @@ describe('svgtool tests', () => {
     ]))
   });
 
+  test('Render a tooltip with 0, negative value', () => {
+    const wrapper = mount(<svg>
+     <ToolTipSvg 
+     key='tooltip1' width={120} height={50}
+     viewBox='0 0 300 200'
+     tooltip={{bounds: [[100,100], [120,120]], 
+     data: 0, feature: {properties: {NAME: 'testZero'}}
+     }} 
+     />
+    </svg>) 
+    /* console.log(wrapper.debug()) */
+    expect(wrapper.text()).toEqual('testZero Data: 0')
+
+    const wrapper2 = mount(<svg>
+     <ToolTipSvg 
+     key='tooltip1' width={120} height={50}
+     viewBox='0 0 300 200'
+     tooltip={{bounds: [[100,100], [120,120]], 
+     data: -10, feature: {properties: {NAME: 'testNeg'}}
+     }} 
+     />
+    </svg>) 
+    /* console.log(wrapper.debug()) */
+    expect(wrapper2.text()).toEqual('testNeg Data: -10')
+
+  });
+
+
+
   test('Render a tooltip with custom rounding', () => {
     const wrapper = mount(<svg>
      <ToolTipSvg 

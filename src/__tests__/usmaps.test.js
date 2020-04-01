@@ -14,13 +14,13 @@ expect.extend(matchers)
 // features in order to make it so the topojson.topology() fcn will work  
 // to convert them into topology.  
 describe('usmaps tests',  () => {
-    let stateProm = () => {  
-      let stateselection = {type: stategeojson['type'], features: R.slice(0,25,stategeojson['features'])}
+    const stateProm = () => {  
+      const stateselection = {type: stategeojson.type, features: R.slice(0,25,stategeojson.features)}
       return Promise.resolve(stateselection)  
     }
 
-    let countyProm = () => {  
-      let countyselection = {type: countygeojson['type'], features: R.slice(0,50,countygeojson['features'])}
+    const countyProm = () => {  
+      const countyselection = {type: countygeojson.type, features: R.slice(0,50,countygeojson.features)}
       return Promise.resolve(countyselection)  
     }
 
@@ -29,7 +29,13 @@ describe('usmaps tests',  () => {
       features: countygeojson.features
     };
 
-    const dataarr = Array.from({length: 60}, (v, k) => k+1); 
+    // Create the fake data array; it will be from -1 to 60
+    // so I can test neg, 0, positive
+    const dataarr = []
+    for (let i = -1; i <= 61; i++) {
+       dataarr.push(i);
+    }
+    // This part sets the values in dataarr to the state GEO_IDs
     let n = 0;
     const fakedata = countyfeatures.features.map(feat => {
     const item = {};
@@ -50,7 +56,7 @@ describe('usmaps tests',  () => {
          countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
          countydatastyle={{ stroke: '#bcc6c6' }}
          legendformatter={format('.3s')} 
-         limitHook={{xlimits: {min: 0, max: 100}}}
+         limitHook={{xlimits: {min: -1, max: 100}}}
          getstates={stateProm}
          getcounties={countyProm}
        >
@@ -61,6 +67,10 @@ describe('usmaps tests',  () => {
     /* console.log(wrapper.debug()) */
     expect(wrapper.find('path').length).toEqual(77)
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#bcc6c6')
+    // make sure -1 and 0 get fill color
+    expect(wrapper.find('GeoFeature').at(0)).toHaveStyleRule('fill','#005a32')
+    expect(wrapper.find('GeoFeature').at(1)).toHaveStyleRule('fill','#005a32')
+    // Then do a few spot checks of other values
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('fill','#238443')
     expect(wrapper.find('GeoFeature').at(25)).toHaveStyleRule('fill','#addd8e')
     expect(wrapper.find('GeoFeature').at(40)).toHaveStyleRule('fill','#ffffcc')
@@ -70,7 +80,7 @@ describe('usmaps tests',  () => {
 
     expect(wrapper.find('GeoFeature').at(60)).toHaveStyleRule('stroke','#707b7c')
     expect(wrapper.find('GeoFeature').at(70)).toHaveStyleRule('fill','none')
-    expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('1.006.9012.818.724.630.536.442.348.254.160.0')
+    expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('1.005.2011.417.623.830.036.242.448.654.861.0')
 
   });
 

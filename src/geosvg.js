@@ -37,7 +37,7 @@ const GeoFeature = props => {
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
-  if (data && limits && data >= limits.min && data <= limits.max) {
+  if (! R.isEmpty(data) && ! R.isNil(data) && limits && data >= limits.min && data <= limits.max) {
     styles.fill = props.colorfcn(data);
     styles = { ...styles, ...props.datastyle };
   }
@@ -74,7 +74,7 @@ const GeoSvg = props => {
   const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
 
   useEffect(() => {
-    if (colorfcn && props.data) {
+    if (colorfcn && ! R.isEmpty(props.data) && ! R.isNil(props.data)){
       props.setdatadisplay(() => colorfcn);
     }
   }, [props.data]);
