@@ -5,6 +5,16 @@ import { geoPath } from "d3-geo";
 import * as topojson from "topojson";
 import * as R from "ramda";
 import { ToolTipSvg } from "./svgtools";
+import { scaleQuantile } from "d3-scale";
+
+const GnYlRd73 = [ "#005a32", "#238443", "#41ab5d", "#78c679", "#addd8e",
+  "#d9f0a3", "#ffffcc", "#ffeda0", "#feb24c", "#f03b20" ];
+
+const quantile = R.curry((outputRange, data) => {
+  return scaleQuantile()
+    .domain(R.values(data))
+    .range(outputRange)
+});
 
 // useMemo Hooks that consolidate some memoize operations specific
 // to geosvg features
@@ -29,6 +39,17 @@ const clickfn = (e, x, y, props) => {
 
 const setxy = (e, x, y) => { x.current = e.clientX; y.current = e.clientY }
 
+// Plots the actual svg geofeatures
+// requires:
+// props.limits, props.data  - value limits hook and data for that feature
+// props.style, props.datastyle
+// props.feature, props.geopath  - the feature data and geopath
+// props.colorfcn
+// props.highlight, props.deHighlight
+// props.settooltip
+// props.clickFcn
+// All the props are passed to any ClickFcn, but I should limit
+// what it has available.
 const GeoFeature = props => {
   const { path, bounds } = useFeatureMemo(props);
   let styles = R.clone(props.style);
@@ -72,10 +93,11 @@ const GeoSvg = props => {
   const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
   const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
   const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
+  const colorize = props.colorize ? props.colorize : quantile(GnYlRd73) 
  
   useMemo(() => {
     if (! R.isEmpty(props.data) && ! R.isNil(props.data)){
-      colorfcn.current = props.colorize ? props.colorize(props.data) : undefined;
+      colorfcn.current = props.colorize ? props.colorize(props.data) : colorize(props.data);
     }
   }, [props.data]);
 

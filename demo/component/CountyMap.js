@@ -50,6 +50,7 @@ const CountySvg = props => {
       getcounties={countygeojson}
       width="90vw"
       height="105vh"
+      colorize={undefined}
       legendstyle={{
         fontSize: "0.8rem",
       }}

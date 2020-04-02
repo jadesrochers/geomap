@@ -2,22 +2,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
-import { scaleQuantile } from "d3-scale";
 import { GeoSvg } from "./geosvg";
 import * as topojson from "topojson";
 import { jsx } from "@emotion/core";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
 import { passExceptChildren, createHighlight } from "@jadesrochers/reacthelpers";
-
-const GnYlRd73 = [ "#005a32", "#238443", "#41ab5d", "#78c679", "#addd8e",
-  "#d9f0a3", "#ffffcc", "#ffeda0", "#feb24c", "#f03b20" ];
-
-const quantile = R.curry((outputRange, data) => {
-  return scaleQuantile()
-    .domain(R.values(data))
-    .range(outputRange)
-});
 
 const flexColumnCenter = {
   display: "flex",
@@ -55,7 +45,10 @@ const useLoadgeo = (dataget, topotype) => {
 };
 
 // Geomap sets up the barscale for a map. otherwise it just
-// passes all props to the children, which should be a map.
+// passes all props to its children. 
+//// REMEMBER: it only has access to direct children, so the
+//// selectBase and ZoomButtons it wraps in BaseMap.
+//// 
 // The Legend (BarScale) gets the limit hooks and datadisplay so it can 
 // setup scaling appropriately
 // Props:
@@ -78,6 +71,7 @@ const GeoMap = props => {
   };
 
   const propsToChildren = passExceptChildren(pass);
+  /* console.log('GeoMap props.children: ', props.children) */
 
   return (
     <div
@@ -104,8 +98,12 @@ const GeoMap = props => {
   );
 };
 
-// BaseMap takes Svg rendering children and puts them inside
-// a viewbox with zoom/pan and mouse tracking capabilities
+// BaseMap sets up a selectBox and viewboxZoomPan for a map
+// The children passed to it are put inside the select/zoom box
+// so that this map will be a selectable zoom/pan map
+// Its only Child is GeoMap, which it passes all its props except
+// project to.
+// GeoMap puts its the children inside a <div> with a legendBar.
 const BaseMap = props => {
   const xsize = props.viewxsize ? props.viewxsize : 1700;
   const ysize = props.viewysize ? props.viewysize : 950;
@@ -135,6 +133,7 @@ const BaseMap = props => {
     shiftypct
   };
   // console.log('what are the children: ', props.children)
+  /* console.log('Basemap props: ', props) */
   return (
     <GeoMap
       projection={projection}
@@ -170,6 +169,10 @@ const BaseMap = props => {
   );
 };
 
+
+// UsMap is the Top level function; 
+// Uses Basemap, which uses Geomap,
+//  
 // Arguments it can take: 
 // getcounties/ getstates to load in geojson 
 // data - to pass data
@@ -180,7 +183,7 @@ const BaseMap = props => {
 // legendstyle - to configure stlying for the legend
 // formatter - format for data values in legend and tooltip 
 const UsMap = (props) => {
-
+  /* console.log('UsMap props: ', props) */
   return(
     <BaseMap
     projection={projectAlbersUsa}
@@ -203,7 +206,6 @@ const UsMap = (props) => {
 }
 
 const UsStateMap = (props) => {
-
   return(
     <BaseMap
     projection={projectAlbersUsa}
@@ -220,8 +222,8 @@ const UsStateMap = (props) => {
   )
 }
 
-const UsCountyMap = (props) => {
 
+const UsCountyMap = (props) => {
   return(
     <BaseMap
     projection={projectAlbersUsa}
@@ -239,22 +241,36 @@ const UsCountyMap = (props) => {
 }
 
 
-
+//// HOW THE colorize=undefined happened;
+// Because SvgCounty passes all its props to GeoSvg ( using ...pass)
+// anything it gets and sets a default for GeoSvg gets overwritten
+// because it is passing all those props that it received.
+// This is not ideal; I should come up with a way to pass only what is needed
+// instead of passing everything.
+//// CHANGE; so a props culling here; all the select/viewbox 
+//// stuff should not be needed below this level so you
+//// should limit what is passed to what is needed
+//// GENERAL RULE: if you pass any prop directly, do not pass it using
+//// ...pass or PropsToChildren because you are double passing with
+//// unpredicatable results
 const SvgCounty = props => {
   const geocounty = useLoadgeo(props.getcounties, "county");
   const defaulthighlight = { "stroke-width": 2, fill: "#5d6d7e" }
   const [highlight, deHighlight] = createHighlight();
-  const pass = R.dissoc("style")(props);
+  const pass = R.omit(["style", "datastyle", "deHighlight", "x", "y", "startx", "starty", "endx", "endy", "clickx", "clicky", "selectx", "selecty", "offx", "offy", "dragx", "dragy" ])(props);
+
+  console.log('SvgCounty pass: ', pass)
   if (!geocounty) {
     return null;
   }
   /* console.log('geocounty object value:\n',geocounty) */
+
   return (
     <GeoSvg
       key="countyfeatures"
       topology={geocounty}
       topopath={"county"}
-      colorize={ props.colorize ? props.colorize : quantile(GnYlRd73) }
+      colorize={props.colorize ? props.colorize : undefined}
       style={props.style}
       datastyle={props.datastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
@@ -266,7 +282,7 @@ const SvgCounty = props => {
 
 const SvgStateStatic = props => {
   const geostate = useLoadgeo(props.getstates, "state");
-  const pass = R.dissoc("style")(props);
+  const pass = R.omit(["style","datastyle", "x", "y", "startx", "starty", "endx", "endy", "clickx", "clicky", "selectx", "selecty", "offx", "offy", "dragx", "dragy" ])(props);
   if (!geostate) {
     return null;
   }
@@ -294,6 +310,7 @@ const SvgState = props => {
     return null;
   }
 
+  /* console.log('SvgState colorize value: ', props.colorize) */
   return (
     <GeoSvg
       key="statefeatures"
@@ -301,7 +318,7 @@ const SvgState = props => {
       topopath={"state"}
       style={props.style}
       datastyle={props.datastyle}
-      colorize={ props.colorize ? props.colorize : quantile(GnYlRd73) }
+      colorize={ props.colorize ? props.colorize : undefined }
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       {...pass}
