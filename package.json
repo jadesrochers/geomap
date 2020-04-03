@@ -1,6 +1,6 @@
 {
     "name": "@jadesrochers/geomap",
-    "version": "0.2.28",
+    "version": "0.2.29",
     "license": "MIT",
     "author": "Jared Desrochers",
     "module": "es/index.js",
