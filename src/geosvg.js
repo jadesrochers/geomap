@@ -82,6 +82,25 @@ const GeoFeature = props => {
   );
 };
 
+// Calculates all the features, sets up the tooltip
+//// Passes to GeoFeature:
+// props.limits, props.data
+// props.style, props.datastyle
+// props.feature, props.geopath  - the feature data and geopath, which
+// are both created in GeoSvg
+// props.colorfcn
+// props.highlight, props.deHighlight
+// props.settooltip - sets tooltip feature, created in GeoSvg
+// props.clickFcn
+//// Needs for itself:
+// props.data, props.limits - mostly for useMemo() purposes
+// props.topology, props.topopath, props.projection, props.scaling
+// are all for calculating the features using useGeoMemo
+// props.setdatadisplay
+// props.featurekey for selecting data/identifying key for each feature
+//// Needs for tooltip:
+// props.tooltipwidth/tooltipheight/tooltipstyle for the tooltip
+// props.viewBox
 
 const GeoSvg = props => {
   const { features, geopath } = useGeoMemo(props);

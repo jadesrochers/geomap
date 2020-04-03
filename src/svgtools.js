@@ -24,12 +24,12 @@ const Foreignobject = (props) => {
 
   return(
    <React.Fragment>
-   <rect x={x} y={y} width={props.width} height={props.height}
+   <rect x={x} y={y} 
     style={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
+    width={props.width} height={props.height}
     />
    <foreignObject className={props.className}
-     width={props.width}  
-     height={props.height}
+     width={props.width}  height={props.height}
      x={x}
      y={y}
    >

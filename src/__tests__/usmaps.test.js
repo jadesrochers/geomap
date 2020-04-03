@@ -75,9 +75,6 @@ describe('usmaps tests',  () => {
     expect(wrapper.find('GeoFeature').at(25)).toHaveStyleRule('fill','#addd8e')
     expect(wrapper.find('GeoFeature').at(40)).toHaveStyleRule('fill','#ffffcc')
 
-    expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('getstates')
-    expect(wrapper.find('GeoSvg').at(1).props()).toHaveProperty('getcounties')
-
     expect(wrapper.find('GeoFeature').at(60)).toHaveStyleRule('stroke','#707b7c')
     expect(wrapper.find('GeoFeature').at(70)).toHaveStyleRule('fill','none')
     expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('1.005.2011.417.623.830.036.242.448.654.861.0')
@@ -124,7 +121,6 @@ describe('usmaps tests',  () => {
     expect(wrapper.find('GeoFeature').at(10)).toHaveStyleRule('stroke','#ccd1d1')
     expect(wrapper.find('GeoFeature').at(20)).toHaveStyleRule('fill','#f4f6f6')
 
-    expect(wrapper.find('GeoSvg').at(0).props()).toHaveProperty('getcounties')
   });
 
 })

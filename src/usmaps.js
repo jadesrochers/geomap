@@ -22,6 +22,9 @@ const projectAlbersUsa = R.curry( (scale, xtrans, ytrans) =>
     .scale(scale)  
     .translate([xtrans, ytrans]) );
 
+// Load geojson data. If it is a function I assume it is async,
+// Call it, and set the rawgeo based on the type indicated.
+// If not a function, guess it is an object and use it directly.
 const useLoadgeo = (dataget, topotype) => {
   const [geodata, setgeodata] = useState(undefined);
   useEffect(() => {
@@ -262,19 +265,28 @@ const SvgCounty = props => {
   if (!geocounty) {
     return null;
   }
-  /* console.log('geocounty object value:\n',geocounty) */
+  /* console.log('SvgCounty props: ', props) */
+  /* console.log('SvgCounty pass: ', pass) */
 
   return (
     <GeoSvg
       key="countyfeatures"
+      limits={props.limits}
+      data={props.data}
+      viewBox={props.viewBox}
       topology={geocounty}
       topopath={"county"}
+      projection={props.projection}
+      scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
-      style={props.style}
-      datastyle={props.datastyle}
+      style={props.countystyle}
+      datastyle={props.countydatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
-      {...pass}
+      clickFcn={props.clickFcn}
+      tooltipwidth={props.tooltipwidth}
+      tooltipheight={props.tooltipheight}
+      setdatadisplay={props.setdatadisplay}
     />
   );
 };
@@ -309,18 +321,27 @@ const SvgState = props => {
     return null;
   }
 
-  /* console.log('SvgState colorize value: ', props.colorize) */
+  /* console.log('SvgState props: ', props) */
+  /* console.log('SvgState pass: ', pass) */
   return (
     <GeoSvg
       key="statefeatures"
+      limits={props.limits}
+      data={props.data}
+      viewBox={props.viewBox}
       topology={geostate}
       topopath={"state"}
-      style={props.style}
-      datastyle={props.datastyle}
-      colorize={ props.colorize ? props.colorize : undefined }
+      projection={props.projection}
+      scaling={props.scaling}
+      colorize={props.colorize ? props.colorize : undefined}
+      style={props.statestyle}
+      datastyle={props.statedatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
-      {...pass}
+      clickFcn={props.clickFcn}
+      tooltipwidth={props.tooltipwidth}
+      tooltipheight={props.tooltipheight}
+      setdatadisplay={props.setdatadisplay}
     />
   );
 };
