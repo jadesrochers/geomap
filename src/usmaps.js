@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { GeoSvg } from "./geosvg";
-import * as topojson from "topojson";
+import * as topojson from "topojson-server";
 import { jsx } from "@emotion/core";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";

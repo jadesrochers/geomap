@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from '../enzyme';
 import { GeoSvg } from '../geosvg'
-import * as topojson from 'topojson'
+import * as topojson from 'topojson-server'
 import * as R from 'ramda';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import { geoAlbersUsa } from 'd3-geo'
