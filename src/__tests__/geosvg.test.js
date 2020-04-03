@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from '../enzyme';
 import { GeoSvg } from '../geosvg'
-import * as topojson from 'topojson-server'
+import { topology } from 'topojson-server'
 import * as R from 'ramda';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import { geoAlbersUsa } from 'd3-geo'
@@ -12,7 +12,7 @@ describe('svgtool tests', () => {
   test('Render a tooltip, check coordinates', () => {
     let countyselection = {type: countygeojson['type'], features: R.slice(0,50,countygeojson['features'])}
     /* console.log('Choose data: ', countyselection) */
-    let countydata = topojson.topology({county: countyselection})
+    let countydata = topology({county: countyselection})
     let wrapper = mount(<div>
      <GeoSvg 
       key='testfeatures'

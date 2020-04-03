@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { GeoSvg } from "./geosvg";
-import * as topojson from "topojson-server";
+import { topology } from "topojson-server";
 import { jsx } from "@emotion/core";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
@@ -33,12 +33,12 @@ const useLoadgeo = (dataget, topotype) => {
     if (typeof dataget === "function") {
       datagetter = async () => {
         rawgeo[topotype] = await dataget();
-        setgeodata(topojson.topology(rawgeo));
+        setgeodata(topology(rawgeo));
       };
     } else {
       datagetter = () => {
         rawgeo[topotype] = dataget;
-        setgeodata(topojson.topology(rawgeo));
+        setgeodata(topology(rawgeo));
       };
     }
     datagetter();

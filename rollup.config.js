@@ -6,7 +6,7 @@ import { terser } from "rollup-plugin-terser";
 
 export default {
     input: './src/index.js',
-    external: ['react', '@emotion/core', '@jadesrochers/legends', '@jadesrochers/reacthelpers', '@jadesrochers/selectbox', 'd3-array', 'd3-geo', 'd3-scale', 'ramda', 'topojson'],
+    external: ['react', '@emotion/core', '@jadesrochers/legends', '@jadesrochers/reacthelpers', '@jadesrochers/selectbox', 'd3-array', 'd3-geo', 'd3-scale', 'ramda', 'topojson-client', 'topojson-server'],
     output: [
       {
           format: 'umd',

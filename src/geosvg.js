@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/core";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
-import * as topojson from "topojson-client";
+import { feature as topofeature } from "topojson-client";
 import * as R from "ramda";
 import { ToolTipSvg } from "./svgtools";
 import { scaleQuantile } from "d3-scale";
@@ -19,7 +19,7 @@ const quantile = R.curry((outputRange, data) => {
 // useMemo Hooks that consolidate some memoize operations specific
 // to geosvg features
 const useGeoMemo = input => {
-  const features = useMemo(() => topojson.feature(input.topology, input.topology.objects[input.topopath]).features, [input.topopath]);
+  const features = useMemo(() => topofeature(input.topology, input.topology.objects[input.topopath]).features, [input.topopath]);
   const geopath = useMemo(() => geoPath(input.projection), [input.scaling]);
   return { features, geopath };
 };
