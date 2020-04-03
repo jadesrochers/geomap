@@ -257,9 +257,8 @@ const SvgCounty = props => {
   const geocounty = useLoadgeo(props.getcounties, "county");
   const defaulthighlight = { "stroke-width": 2, fill: "#5d6d7e" }
   const [highlight, deHighlight] = createHighlight();
-  const pass = R.omit(["style", "datastyle", "deHighlight", "x", "y", "startx", "starty", "endx", "endy", "clickx", "clicky", "selectx", "selecty", "offx", "offy", "dragx", "dragy" ])(props);
+  const pass = R.omit(["colorize", "style", "datastyle", "deHighlight", "x", "y", "startx", "starty", "endx", "endy", "clickx", "clicky", "selectx", "selecty", "offx", "offy", "dragx", "dragy" ])(props);
 
-  console.log('SvgCounty pass: ', pass)
   if (!geocounty) {
     return null;
   }
@@ -305,7 +304,7 @@ const SvgState = props => {
   const [highlight, deHighlight] = createHighlight();
   const defaulthighlight = { "stroke-width": 2, fill: "#5d6d7e" }
   const geostate = useLoadgeo(props.getstates, "state");
-  const pass = R.dissoc("style")(props);
+  const pass = R.omit(["style", "colorize", "style", "datastyle"])(props);
   if (!geostate) {
     return null;
   }
