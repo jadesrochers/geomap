@@ -286,6 +286,7 @@ const SvgCounty = props => {
       clickFcn={props.clickFcn}
       tooltipwidth={props.tooltipwidth}
       tooltipheight={props.tooltipheight}
+      tooltipstyle={props.tooltipstyle}
       setdatadisplay={props.setdatadisplay}
     />
   );
@@ -341,6 +342,7 @@ const SvgState = props => {
       clickFcn={props.clickFcn}
       tooltipwidth={props.tooltipwidth}
       tooltipheight={props.tooltipheight}
+      tooltipstyle={props.tooltipstyle}
       setdatadisplay={props.setdatadisplay}
     />
   );
