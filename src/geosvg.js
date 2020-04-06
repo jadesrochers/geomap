@@ -128,7 +128,7 @@ const GeoSvg = props => {
 
   const passalong = { geopath, colorfcn, featurekey, settooltip, ...pass };
   return (
-    <svg css={props.cssStyles ? props.cssStyles : undefined}>
+    <g css={props.cssStyles ? props.cssStyles : undefined}>
       {useMemo(() => {
         return features.map(feature => (
           <GeoFeature
@@ -152,7 +152,7 @@ const GeoSvg = props => {
         height={tooltipheight}
         {...props}
       />
-    </svg>
+    </g>
   );
 };
 

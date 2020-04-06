@@ -22,6 +22,16 @@ const projectAlbersUsa = R.curry( (scale, xtrans, ytrans) =>
     .scale(scale)  
     .translate([xtrans, ytrans]) );
 
+// This pushes the tooltip to the end of the map.
+// It was the only way I came up with to make this work when I have
+// multiple map layers and the tooltip ends up above/below some of them.
+const SvgHack = (props) => {
+  // Ignore all props, just output the use for tooltip
+  return(
+    <use href="#tooltipwhole" />
+  )
+}
+
 // Load geojson data. If it is a function I assume it is async,
 // Call it, and set the rawgeo based on the type indicated.
 // If not a function, guess it is an object and use it directly.
@@ -204,6 +214,7 @@ const UsMap = (props) => {
         style={props.statestyle}
         datastyle={props.statedatastyle}
       />
+      <SvgHack key='relocate-tooltip' />
   </BaseMap>
   )
 }

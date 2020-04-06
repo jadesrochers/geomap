@@ -13,7 +13,7 @@ describe('svgtool tests', () => {
     let countyselection = {type: countygeojson['type'], features: R.slice(0,50,countygeojson['features'])}
     /* console.log('Choose data: ', countyselection) */
     let countydata = topology({county: countyselection})
-    let wrapper = mount(<div>
+    let wrapper = mount(<svg>
      <GeoSvg 
       key='testfeatures'
       topology={ countydata }
@@ -24,7 +24,7 @@ describe('svgtool tests', () => {
       width={300} 
       height={200}
      />
-    </div>) 
+    </svg>) 
     /* console.log(wrapper.debug()) */
     // I could check some paths in more detail,
     // but this gives a pretty good idea with much less work.

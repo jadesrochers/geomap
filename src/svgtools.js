@@ -23,19 +23,19 @@ const Foreignobject = (props) => {
   const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.8}
 
   return(
-   <React.Fragment>
-   <rect x={x} y={y} 
-    style={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
-    width={props.width} height={props.height}
-    />
-   <foreignObject className={props.className}
-     width={props.width}  height={props.height}
-     x={x}
-     y={y}
-   >
-     {props.children}
-   </foreignObject>
-   </React.Fragment>
+   <g id='tooltipwhole' >
+     <rect x={x} y={y} 
+      style={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
+      width={props.width} height={props.height}
+      />
+     <foreignObject className={props.className}
+       width={props.width}  height={props.height}
+       x={x}
+       y={y}
+     >
+       {props.children}
+     </foreignObject>
+   </g>
   )
 }
 
@@ -46,7 +46,7 @@ const Createtooltip = (props) => {
   const defaultstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '2.0rem', height: props.height, width: props.width}
   const name = props.tooltipkey ? props.tooltipkey : defaultname
   return(
-   <div
+   <div 
      css={[ defaultstyle, 
      (props.tooltipstyle ? props.tooltipstyle : undefined) 
      ]}
