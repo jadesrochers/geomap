@@ -112,6 +112,7 @@ const GeoSvg = props => {
   const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
   const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
   const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
+  const tooltiprectstyle = props.tooltiprectstyle ? props.tooltiprectstyle : { fill: '#b0b0b0', fillOpacity: 0.70 };
   const colorize = props.colorize ? props.colorize : quantile(GnYlRd73) 
  
   useMemo(() => {
@@ -148,6 +149,7 @@ const GeoSvg = props => {
       <ToolTipSvg
         tooltip={tooltip}
         tooltipstyle={tooltipstyle}
+        tooltiprectstyle={tooltiprectstyle}
         width={tooltipwidth}
         height={tooltipheight}
         {...props}

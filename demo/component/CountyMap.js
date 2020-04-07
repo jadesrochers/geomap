@@ -67,6 +67,7 @@ const CountySvg = props => {
         strokeLinejoin: "round"
       }}
       tooltipstyle={{ fontSize: "2.4rem" }}
+      tooltiprectstyle={{ fill: '#7d9af7', fillOpacity: '0.6' }}
       limitHook={{ xlimits: { min: 0, max: 100 } }}
       clickFcn={props => console.log("Feature feature: ", props.feature)}
     />

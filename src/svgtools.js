@@ -20,7 +20,7 @@ const Foreignobject = (props) => {
     y = (bounds[1][1] + bounds[0][1])/2 - props.height/2
   }
 
-  const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.8}
+  const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.7}
 
   return(
    <g id='tooltipwhole' >
