@@ -129,7 +129,7 @@ const BaseMap = props => {
   [ props.scaling, projxtrans, projytrans ]);
  
   const { scale, zoomin, zoomout, pan, shiftxpct, shiftypct } = useZoomPan(
-    2.0,
+    4.0,
     1.0,
     xsize,
     ysize
