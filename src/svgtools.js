@@ -3,67 +3,66 @@ import React from 'react';
 import * as R from 'ramda';
 import { jsx } from "@emotion/core";
 
-const Foreignobject = (props) => {
-  const bounds = props.tooltip.bounds
-  const viewarr = R.map(parseInt, R.split(' ',props.viewBox))
-  let x = (bounds[1][0] + bounds[0][0])/2 - props.width/2
-  let y = (bounds[0][1]) - (props.height + 10)
+const getXY = (viewarr, bounds, width, height, scale) => {
+  let x = (bounds[1][0] + bounds[0][0])/2 - width/2
+  let y = (bounds[0][1]) - (height + 10)
+  let scaleInv = 1/scale
   if(y < viewarr[1]){
     y = bounds[1][1] + 20
   }
-  if(x + props.width > viewarr[2]){
-    x = bounds[0][0] - props.width - 20
-    y = (bounds[1][1] + bounds[0][1])/2 - props.height/2
+  if(x + width > viewarr[2]){
+    x = bounds[0][0] - width - 20
+    y = (bounds[1][1] + bounds[0][1])/2 - height/2
   }
-  if(x + props.width < viewarr[0]){
+  if(x + width < viewarr[0]){
     x = bounds[1][0] + 20
-    y = (bounds[1][1] + bounds[0][1])/2 - props.height/2
+    y = (bounds[1][1] + bounds[0][1])/2 - height/2
   }
+  x = x * scaleInv + (height - height*scale) * scaleInv
+  y = y * scaleInv + (width - width*scale) * scaleInv/2
+  return {x, y}
+}
+// It is a tooltip that uses a <rect> and two <text> elements
+// to pop up a display for any shape rendered.
+// uses information about bounding area to relocate the tooltip
+// if it is out of bounds.
+// Takes configuring arguments for the rect and text elements.
+// These are tooltiprectstyle and tooltipstyle
+// props.scale is used to scale the tooltip if there is zoom in/out.
+const ToolTipSvg = (props) => {
+  if(! props.tooltip){return null} 
+  const bounds = props.tooltip.bounds
+  const viewarr = R.map(parseInt, R.split(' ',props.viewBox))
+
+  const data = (R.isEmpty(props.tooltip.data) || R.isNil(props.tooltip.data)) ? 'No Value' : (props.tooltip_round ? props.tooltip_round(props.tooltip.data) : Math.round(props.tooltip.data))
+  const featprops = props.tooltip.feature.properties
+  /* console.log('Foreignobject featprops: ', featprops) */
+  /* console.log('Foreignobject props: ', props) */
+  const defaultname = featprops.NAME ? 'NAME' : 'name'
+  const textstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '2.0rem', height: props.height, width: props.width}
+  const name = props.tooltipkey ? props.tooltipkey : defaultname
+  const toolstyle = (props.tooltipstyle ? props.tooltipstyle : undefined) 
+  const scale = props.scale ? 1/props.scale : 1
+
+  const { x, y } = getXY(viewarr, bounds, props.width, props.height, scale)
 
   const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.7}
   return(
-   <g id='tooltipwhole' >
-     <rect x={x} y={y} 
+   <g id='tooltipwhole'  >
+     <rect x={x} y={y} transform={`scale(${scale})`}
       css={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
       width={props.width} height={props.height}
       />
-     <foreignObject className={props.className}
-       width={props.width}  height={props.height}
-       x={x}
-       y={y}
-     >
-       {props.children}
-     </foreignObject>
+     <text x={x+(props.height/10)} y={y+(props.height/2.5)} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+>
+       {featprops[name]}
+     </text>
+     <text x={x+(props.height/10)} y={y+(props.height/1.33)} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+>
+       Data: {data}
+     </text>
    </g>
   )
-}
-
-const Createtooltip = (props) => {
-  const data = (R.isEmpty(props.tooltip.data) || R.isNil(props.tooltip.data)) ? 'No Value' : (props.tooltip_round ? props.tooltip_round(props.tooltip.data) : Math.round(props.tooltip.data))
-  const featprops = props.tooltip.feature.properties
-  const defaultname = featprops.NAME ? 'NAME' : 'name'
-  const defaultstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '2.0rem', height: props.height, width: props.width}
-  const name = props.tooltipkey ? props.tooltipkey : defaultname
-  return(
-   <div 
-     css={[ defaultstyle, 
-     (props.tooltipstyle ? props.tooltipstyle : undefined) 
-     ]}
-   >
-     {featprops[name]} <br/>
-     Data: {data}
-   </div>
-  )
-}
-
-const ToolTipSvg = (props) => {
- if(! props.tooltip){return null} 
- return (
-   <Foreignobject {...props} >
-     <Createtooltip {...props} >
-     </Createtooltip>
-   </Foreignobject>
- )
 }
 
 export { ToolTipSvg }

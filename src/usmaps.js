@@ -300,6 +300,7 @@ const SvgCounty = props => {
       tooltipstyle={props.tooltipstyle}
       tooltiprectstyle={props.tooltiprectstyle}
       setdatadisplay={props.setdatadisplay}
+      scale={props.scale}
     />
   );
 };
@@ -357,6 +358,7 @@ const SvgState = props => {
       tooltipstyle={props.tooltipstyle}
       tooltiprectstyle={props.tooltiprectstyle}
       setdatadisplay={props.setdatadisplay}
+      scale={props.scale}
     />
   );
 };

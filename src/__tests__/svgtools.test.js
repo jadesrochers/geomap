@@ -17,8 +17,8 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('blah! Data: 11')
-    expect(wrapper.find('foreignObject').length).toEqual(1)
+    expect(wrapper.text()).toEqual('blah!Data: 11')
+    expect(wrapper.find('text').length).toEqual(2)
     expect(wrapper.containsAllMatchingElements([
       <rect x={60} y={40} /> 
     ]))
@@ -35,7 +35,7 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('testZero Data: 0')
+    expect(wrapper.text()).toEqual('testZeroData: 0')
 
     const wrapper2 = mount(<svg>
      <ToolTipSvg 
@@ -47,7 +47,7 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper2.text()).toEqual('testNeg Data: -10')
+    expect(wrapper2.text()).toEqual('testNegData: -10')
 
   });
 
@@ -58,7 +58,7 @@ describe('svgtool tests', () => {
        key='tooltip1' width={120} height={50}
        viewBox='0 0 300 200'
        tooltiprectstyle={{ fill: '#5c7ca7' }}
-       tooltipstyle={{ color: '#a4a4a4' }}
+       tooltipstyle={{ fill: '#a4a4a4' }}
        tooltip_round={(n) => Math.round(n*100)/100}
        tooltip={{bounds: [[100,100], [120,120]], 
        data: 100.543, feature: {properties: {NAME: 'Decimal'}}
@@ -66,13 +66,13 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('Decimal Data: 100.54')
-    expect(wrapper.find('foreignObject').length).toEqual(1)
+    expect(wrapper.text()).toEqual('DecimalData: 100.54')
+    expect(wrapper.find('text').length).toEqual(2)
     expect(wrapper.containsAllMatchingElements([
       <rect x={60} y={40} /> 
     ]))
     expect(wrapper.find('rect').at(0)).toHaveStyleRule('fill','#5c7ca7')
-    expect(wrapper.find('div').at(0)).toHaveStyleRule('color','#a4a4a4')
+    expect(wrapper.find('text').at(0)).toHaveStyleRule('fill','#a4a4a4')
   });
 
   test('Render a tooltip out of bounds and check correction', () => {
@@ -86,8 +86,8 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('blah! Data: 11')
-    expect(wrapper.find('foreignObject').length).toEqual(1)
+    expect(wrapper.text()).toEqual('blah!Data: 11')
+    expect(wrapper.find('text').length).toEqual(2)
     expect(wrapper.containsAllMatchingElements([
       <rect x={140} y={40} /> 
     ]))
@@ -105,8 +105,8 @@ describe('svgtool tests', () => {
      />
     </svg>) 
     /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('tk421 Data: 11')
-    expect(wrapper.find('foreignObject').length).toEqual(1)
+    expect(wrapper.text()).toEqual('tk421Data: 11')
+    expect(wrapper.find('text').length).toEqual(2)
     expect(wrapper.containsAllMatchingElements([
       <rect x={140} y={40} /> 
     ]))

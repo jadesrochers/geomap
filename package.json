@@ -51,7 +51,7 @@
         "profile": "webpack --config ./webpack.config.js --profile --json > webpack-stats.json",
         "start": "BABEL_ENV=es6  webpack-dev-server --progress --port 3000 --host 127.0.0.1 --inline --config demo/webpack.config.js",
         "packagePatch": "npm run test && npm run build-es && npm run build-umd-roll && npm version patch && npm publish && git push -u origin master",
-        "packageMinor": "npm run test && npm run build-es && npm run build-umd-roll && npm version patch && npm publish && git push -u origin master",
+        "packageMinor": "npm run test && npm run build-es && npm run build-umd-roll && npm version minor && npm publish && git push -u origin master",
         "updatePatch": "npm update && npm run test && npm run build-umd-roll && npm version patch && npm publish && git push -u origin master",
         "CommitandPackage": "./CommitandPackage.sh"
     },
