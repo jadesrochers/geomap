@@ -21,11 +21,10 @@ const Foreignobject = (props) => {
   }
 
   const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.7}
-
   return(
    <g id='tooltipwhole' >
      <rect x={x} y={y} 
-      style={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
+      css={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
       width={props.width} height={props.height}
       />
      <foreignObject className={props.className}

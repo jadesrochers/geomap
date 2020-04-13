@@ -7,6 +7,7 @@ import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
 import { matchers } from 'jest-emotion'  
 import { format } from 'd3-format';
+import { scaleThreshold } from "d3-scale";
 
 expect.extend(matchers)  
 
@@ -29,6 +30,14 @@ describe('usmaps tests',  () => {
       features: countygeojson.features
     };
 
+   const CBgnrd13 = [ '#78c679', '#addd8e', '#d9f0a3', '#f7fcb9', '#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026' ]
+   const threshold = R.curry((outputRange, data) => {
+     return scaleThreshold() 
+      .domain([ 2,4,6,8,10,12,14,16,18,20,25,30,40 ])
+      .range(outputRange)
+   });
+   const thresholdr12 = threshold(CBgnrd13)
+
     // Create the fake data array; it will be from -1 to 60
     // so I can test neg, 0, positive
     const dataarr = []
@@ -38,11 +47,11 @@ describe('usmaps tests',  () => {
     // This part sets the values in dataarr to the state GEO_IDs
     let n = 0;
     const fakedata = countyfeatures.features.map(feat => {
-    const item = {};
-    item[feat.properties.GEO_ID] = dataarr[n];
-    n++;
-    return item;
-  });
+      const item = {};
+      item[feat.properties.GEO_ID] = dataarr[n];
+      n++;
+      return item;
+    });
     const data = R.mergeAll(fakedata);
 
   test('Render the UsMap (both states and counties)', async () => {
@@ -80,6 +89,41 @@ describe('usmaps tests',  () => {
     expect(wrapper.text().match(/[0-9\.]+/)[0]).toEqual('1.005.2011.417.623.830.036.242.448.654.861.0')
 
   });
+
+  test('Render the UsMap with custom threshold color scaling', async () => {
+    let wrapper
+    await act( async () => {
+      wrapper = mount(<svg>
+       <UsMap
+         data={data}
+         statestyle={{ fill: 'none', stroke: '#707b7c', strokeLinejoin: 'round'}}
+         statedatastyle={{ stroke: '#323535', strokeLinejoin: 'round'}}
+         countystyle={{ fill: '#f4f6f6', stroke: '#ccd1d1' }}
+         countydatastyle={{ stroke: '#bcc6c6' }}
+         legendformatter={format('.3s')} 
+         limitHook={{xlimits: {min: -1, max: 100}}}
+         getstates={stateProm}
+         getcounties={countyProm}
+         colorize={thresholdr12}
+       >
+       </UsMap>
+    </svg>)  
+    })
+    wrapper.update()
+    /* console.log(wrapper.debug()) */
+    expect(wrapper.find('path').length).toEqual(77)
+    // make sure -1 and 0 get fill color
+    expect(wrapper.find('GeoFeature').at(0)).toHaveStyleRule('fill','#78c679')
+    expect(wrapper.find('GeoFeature').at(3)).toHaveStyleRule('fill','#addd8e')
+    // Then do a few spot checks of other values
+    expect(wrapper.find('GeoFeature').at(5)).toHaveStyleRule('fill','#d9f0a3')
+    expect(wrapper.find('GeoFeature').at(7)).toHaveStyleRule('fill','#f7fcb9')
+    expect(wrapper.find('GeoFeature').at(9)).toHaveStyleRule('fill','#ffffcc')
+
+    expect(wrapper.find('GeoFeature').at(22)).toHaveStyleRule('fill','#e31a1c')
+    expect(wrapper.find('GeoFeature').at(27)).toHaveStyleRule('fill','#bd0026')
+  });
+
 
 
   test('Render the UsState map', async () => {
