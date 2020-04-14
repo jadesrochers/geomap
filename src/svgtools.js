@@ -18,8 +18,10 @@ const getXY = (viewarr, bounds, width, height, scale) => {
     x = bounds[1][0] + 20
     y = (bounds[1][1] + bounds[0][1])/2 - height/2
   }
-  x = x * scaleInv + (height - height*scale) * scaleInv
-  y = y * scaleInv + (width - width*scale) * scaleInv/2
+  // Seems like this should not work, (width for x, height for y)
+  // but it does work.
+  x = x  + (height - height*scale)
+  y = y  + (height - height*scale) 
   return {x, y}
 }
 // It is a tooltip that uses a <rect> and two <text> elements
@@ -48,20 +50,20 @@ const ToolTipSvg = (props) => {
 
   const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.7}
   return(
-   <g id='tooltipwhole'  >
-     <rect x={x} y={y} transform={`scale(${scale})`}
+   <svg x={x} y={y} width={props.width} height={props.height} id='tooltipwhole'  >
+     <rect transform={`scale(${scale})`}
       css={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
       width={props.width} height={props.height}
       />
-     <text x={x+(props.height/10)} y={y+(props.height/2.5)} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+     <text x={'50%'} y={'35%'} dominantBaseline={'middle'} textAnchor={'middle'} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
 >
        {featprops[name]}
      </text>
-     <text x={x+(props.height/10)} y={y+(props.height/1.33)} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+     <text x={'50%'} y={'70%'} dominantBaseline={'middle'} textAnchor={'middle'} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
 >
        Data: {data}
      </text>
-   </g>
+   </svg>
   )
 }
 
