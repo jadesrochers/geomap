@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
 import { feature as topofeature } from "topojson-client";

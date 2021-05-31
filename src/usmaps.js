@@ -4,7 +4,7 @@ import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { GeoSvg } from "./geosvg";
 import { topology } from "topojson-server";
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
 import { passExceptChildren, createHighlight } from "@jadesrochers/reacthelpers";

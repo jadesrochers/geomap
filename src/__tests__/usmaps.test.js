@@ -5,7 +5,7 @@ import { UsMap, UsStateMap, UsCountyMap } from '../usmaps'
 import { act } from 'react-dom/test-utils';
 import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
-import { matchers } from 'jest-emotion'  
+import { matchers } from '@emotion/jest'  
 import { format } from 'd3-format';
 import { scaleThreshold } from "d3-scale";
 

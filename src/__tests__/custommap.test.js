@@ -1,7 +1,7 @@
 import React from 'react';
 import * as R from 'ramda'
 import { mount } from '../enzyme';
-import { matchers } from 'jest-emotion'  
+import { matchers } from '@emotion/jest'  
 import { CustomMap } from '../custommap'
 import { act } from 'react-dom/test-utils';
 import stategeojson from './gz_2010_usState_20m.json'

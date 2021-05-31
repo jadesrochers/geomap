@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React from 'react';
 import * as R from 'ramda';
-import { jsx } from "@emotion/core";
+import { jsx } from "@emotion/react";
 
 const getXY = (viewarr, bounds, width, height, scale) => {
   let x = (bounds[1][0] + bounds[0][0])/2 - width/2
