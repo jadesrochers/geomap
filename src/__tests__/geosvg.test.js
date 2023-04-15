@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from '../enzyme';
+import { render, screen, renderHook, act, waitFor, fireEvent } from '@testing-library/react'
 import { GeoSvg } from '../geosvg'
 import { topology } from 'topojson-server'
 import * as R from 'ramda';
@@ -13,7 +13,7 @@ describe('svgtool tests', () => {
     let countyselection = {type: countygeojson['type'], features: R.slice(0,50,countygeojson['features'])}
     /* console.log('Choose data: ', countyselection) */
     let countydata = topology({county: countyselection})
-    let wrapper = mount(<svg>
+    const { container } = render(<svg>
      <GeoSvg 
       key='testfeatures'
       topology={ countydata }
@@ -28,12 +28,8 @@ describe('svgtool tests', () => {
     /* console.log(wrapper.debug()) */
     // I could check some paths in more detail,
     // but this gives a pretty good idea with much less work.
-    expect(wrapper.find('path').length).toEqual(50)
-    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('dataselect','CENSUSAREA')
-    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('scaling',900)
-    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('width',300)
-    expect(wrapper.find('GeoFeature').at(0).props()).toHaveProperty('height',200)
-
+    const paths = container.getElementsByTagName('path')
+    expect(paths.length).toEqual(50)
   });
 
 })

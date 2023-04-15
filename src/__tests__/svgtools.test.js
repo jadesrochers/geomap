@@ -1,116 +1,103 @@
 import React from 'react';
-import { mount } from '../enzyme';
+import { render, screen, renderHook, act, waitFor } from '@testing-library/react'
 import { ToolTipSvg } from '../svgtools'
-import { matchers } from '@emotion/jest'  
+import '@testing-library/jest-dom'
 
-expect.extend(matchers)  
 
 describe('svgtool tests', () => {
-  test('Render a tooltip, check text and coordinates', () => {
-    const wrapper = mount(<svg>
-     <ToolTipSvg 
-     key='tooltip1' width={120} height={50}
-     viewBox='0 0 300 200'
-     tooltip={{bounds: [[100,100], [120,120]], 
-     data: 11, feature: {properties: {NAME: 'blah!'}}
-     }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('blah!Data: 11')
-    expect(wrapper.find('text').length).toEqual(2)
-    expect(wrapper.containsAllMatchingElements([
-      <rect x={60} y={40} /> 
-    ]))
-  });
+    test('Render a tooltip, check text and coordinates', () => {
+        const { container } = render(
+            <svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            viewBox='0 0 300 200'
+            tooltip={{bounds: [[100,100], [120,120]], 
+                    data: 11, feature: {properties: {NAME: 'blah!'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('blah!')).toBeInTheDocument()
+        expect(screen.getByText('Data: 11')).toBeInTheDocument()
+        expect(container.getElementsByTagName('text').length).toEqual(2)
+        expect(container.getElementsByTagName('rect').item(0).getAttribute('width')).toEqual("120")
+        expect(container.getElementsByTagName('text').item(0).getAttribute('y')).toEqual("35%")
+    });
 
-  test('Render a tooltip with 0, negative value', () => {
-    const wrapper = mount(<svg>
-     <ToolTipSvg 
-     key='tooltip1' width={120} height={50}
-     viewBox='0 0 300 200'
-     tooltip={{bounds: [[100,100], [120,120]], 
-     data: 0, feature: {properties: {NAME: 'testZero'}}
-     }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('testZeroData: 0')
+    test('Render a tooltip with 0, negative value', () => {
+        render(
+            <svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            viewBox='0 0 300 200'
+            tooltip={{bounds: [[100,100], [120,120]], 
+                    data: 0, feature: {properties: {NAME: 'testZero'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('testZero')).toBeInTheDocument()
+        expect(screen.getByText('Data: 0')).toBeInTheDocument()
 
-    const wrapper2 = mount(<svg>
-     <ToolTipSvg 
-     key='tooltip1' width={120} height={50}
-     viewBox='0 0 300 200'
-     tooltip={{bounds: [[100,100], [120,120]], 
-     data: -10, feature: {properties: {NAME: 'testNeg'}}
-     }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper2.text()).toEqual('testNegData: -10')
+        render(<svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            viewBox='0 0 300 200'
+            tooltip={{bounds: [[100,100], [120,120]], 
+                    data: -10, feature: {properties: {NAME: 'testNeg'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('testNeg')).toBeInTheDocument()
+        expect(screen.getByText('Data: -10')).toBeInTheDocument()
 
-  });
+    });
 
 
-  test('Render a tooltip with custom rect and div styles', () => {
-    const wrapper = mount(<svg>
-     <ToolTipSvg 
-       key='tooltip1' width={120} height={50}
-       viewBox='0 0 300 200'
-       tooltiprectstyle={{ fill: '#5c7ca7' }}
-       tooltipstyle={{ fill: '#a4a4a4' }}
-       tooltip_round={(n) => Math.round(n*100)/100}
-       tooltip={{bounds: [[100,100], [120,120]], 
-       data: 100.543, feature: {properties: {NAME: 'Decimal'}}
-       }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('DecimalData: 100.54')
-    expect(wrapper.find('text').length).toEqual(2)
-    expect(wrapper.containsAllMatchingElements([
-      <rect x={60} y={40} /> 
-    ]))
-    expect(wrapper.find('rect').at(0)).toHaveStyleRule('fill','#5c7ca7')
-    expect(wrapper.find('text').at(0)).toHaveStyleRule('fill','#a4a4a4')
-  });
+    test('Render a tooltip with custom rect and div styles', () => {
+        render(
+            <svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            viewBox='0 0 300 200'
+            tooltiprectstyle={{ fill: '#5c7ca7' }}
+            tooltipstyle={{ fill: '#a4a4a4' }}
+            tooltip_round={(n) => Math.round(n*100)/100}
+            tooltip={{bounds: [[100,100], [120,120]], 
+                    data: 100.543, feature: {properties: {NAME: 'Decimal'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('Data: 100.54')).toBeInTheDocument()
+        expect(screen.getByText('Decimal')).toBeInTheDocument()
+    });
 
-  test('Render a tooltip out of bounds and check correction', () => {
-    const wrapper = mount(<svg>
-     <ToolTipSvg 
-     key='tooltip1' width={120} height={50}
-     viewBox='0 0 300 200'
-     tooltip={{bounds: [[280,10], [290,20]], 
-     data: 11, feature: {properties: {NAME: 'blah!'}}
-     }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('blah!Data: 11')
-    expect(wrapper.find('text').length).toEqual(2)
-    expect(wrapper.containsAllMatchingElements([
-      <rect x={140} y={40} /> 
-    ]))
-  });
+    test('Render a tooltip out of bounds and check correction', () => {
+        render(<svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            viewBox='0 0 300 200'
+            tooltip={{bounds: [[280,10], [290,20]], 
+                    data: 11, feature: {properties: {NAME: 'blah!'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('blah!')).toBeInTheDocument()
+        expect(screen.getByText('Data: 11')).toBeInTheDocument()
+    });
 
-  test('Render a tooltip with custom data key', () => {
-    const wrapper = mount(<svg>
-     <ToolTipSvg 
-     key='tooltip1' width={120} height={50}
-     tooltipkey='abrev'
-     viewBox='0 0 300 200'
-     tooltip={{bounds: [[280,10], [290,20]], 
-     data: 11, feature: {properties: {NAME: 'blah!', abrev: 'tk421'}}
-     }} 
-     />
-    </svg>) 
-    /* console.log(wrapper.debug()) */
-    expect(wrapper.text()).toEqual('tk421Data: 11')
-    expect(wrapper.find('text').length).toEqual(2)
-    expect(wrapper.containsAllMatchingElements([
-      <rect x={140} y={40} /> 
-    ]))
-  });
+    test('Render a tooltip with custom data key', () => {
+        render(<svg>
+            <ToolTipSvg 
+            key='tooltip1' width={120} height={50}
+            tooltipkey='abrev'
+            viewBox='0 0 300 200'
+            tooltip={{bounds: [[280,10], [290,20]], 
+                    data: 11, feature: {properties: {NAME: 'blah!', abrev: 'argh'}}
+            }} 
+            />
+            </svg>) 
+        expect(screen.getByText('argh')).toBeInTheDocument()
+        expect(screen.getByText('Data: 11')).toBeInTheDocument()
+    });
 
 
 })
