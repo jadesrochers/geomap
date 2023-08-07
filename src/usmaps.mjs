@@ -80,7 +80,7 @@ const GeoMap = props => {
     ...pass,
     datadisplay,
     setdatadisplay,
-    limits: props.limitHook.xlimits ? props.limitHook.xlimits : undefined
+    limits: props.limitHook?.xlimits ? props.limitHook.xlimits : undefined
   };
 
   const propsToChildren = passExceptChildren(pass);

@@ -6,7 +6,7 @@ import filesize from 'rollup-plugin-filesize';
 
 
 export default {
-    input: './src/index.js',
+    input: './src/index.mjs',
     external: ['react', '@emotion/react', '@jadesrochers/legends', '@jadesrochers/reacthelpers', '@jadesrochers/selectbox', 'd3-array', 'd3-geo', 'd3-scale', 'ramda', 'topojson-client', 'topojson-server'],
     output: [
       {

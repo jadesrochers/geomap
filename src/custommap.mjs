@@ -61,4 +61,4 @@ const SvgGeneric = (props) => {
 }
 
 
-export { CustomMap  }
+export { CustomMap }
