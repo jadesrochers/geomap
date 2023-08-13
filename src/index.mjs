@@ -1,4 +1,4 @@
-export { GeoSvg } from './geosvg'
-export { ToolTipSvg } from './svgtools'
-export { UsMap, UsStateMap, UsCountyMap, BaseMap } from './usmaps'
-export { CustomMap } from './custommap'
+export { GeoSvg } from './geosvg.jsx'
+export { ToolTipSvg } from './svgtools.jsx'
+export { UsMap, UsStateMap, UsCountyMap, BaseMap } from './usmaps.jsx'
+export { CustomMap } from './custommap.jsx'

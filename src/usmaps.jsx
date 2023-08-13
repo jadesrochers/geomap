@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
@@ -8,15 +7,17 @@ import { jsx } from "@emotion/react";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
 import { passExceptChildren, createHighlight } from "@jadesrochers/reacthelpers";
+import styles from './usmaps.modules.css'
 
-const flexColumnCenter = {
-  display: "flex",
-  alignItems: "center",
-  flexDirection: "column"
-};
+// const flexColumnCenter = {
+//   display: "flex",
+//   alignItems: "center",
+//   flexDirection: "column"
+// };
 
 const blackOutline = { outline: "1px solid #000", margin: "2px" };
 const whitefill = { backgroundColor: "#FFF" };
+//
 const projectAlbersUsa = R.curry( (scale, xtrans, ytrans) =>
   geoAlbersUsa()
     .scale(scale)  
@@ -83,20 +84,18 @@ const GeoMap = props => {
     limits: props.limitHook?.xlimits ? props.limitHook.xlimits : undefined
   };
 
+  const sizing = {
+    height: (props.height ? props.height : "100%"),
+    width: (props.width ? props.width : "100%"),
+  }
+
   const propsToChildren = passExceptChildren(pass);
   /* console.log('GeoMap props.children: ', props.children) */
 
   return (
     <div
-      css={[
-        flexColumnCenter,
-        {
-          height: props.height ? props.height : "100%",
-          width: props.width ? props.width : "100%",
-          overflow: "hidden",
-          marginTop: "5px"
-        }
-      ]}
+      style={ sizing }
+      className={`${styles.flexColumnCenter} ${styles.mapDefaults}`}
     >
       <BarScale
         key="legend"
@@ -278,6 +277,9 @@ const SvgCounty = props => {
   }
   /* console.log('SvgCounty props: ', props) */
   /* console.log('SvgCounty pass: ', pass) */
+  const featureclasses = props.stateclasses ? props.stateclasses.join(' ') : styles.stateDataStyle
+  const dataclasses = props.countydataclasses ? props.countydataclasses.join(' ') : styles.countyDataStyle
+
 
   return (
     <GeoSvg
@@ -290,8 +292,10 @@ const SvgCounty = props => {
       projection={props.projection}
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
-      style={props.countystyle}
-      datastyle={props.countydatastyle}
+      featureclasses={props.countystyle}
+      // style={props.countystyle}
+      dataclasses={props.countydatastyle}
+      // datastyle={props.countydatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       clickFcn={props.clickFcn}
@@ -335,6 +339,8 @@ const SvgState = props => {
     return null;
   }
 
+  const dataclasses = props.stateclasses ? props.stateclasses.join(' ') : styles.stateDataStyle
+  const featureclasses = props.statedataclasses ? props.statedataclasses.join(' ') : styles.stateDataStyle
   /* console.log('SvgState props: ', props) */
   /* console.log('SvgState pass: ', pass) */
   return (
@@ -348,8 +354,10 @@ const SvgState = props => {
       projection={props.projection}
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
-      style={props.statestyle}
-      datastyle={props.statedatastyle}
+      featureclasses={dataclasses}
+      // style={props.statestyle}
+      dataclasses={featureclasses}
+      // datastyle={props.statedatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       clickFcn={props.clickFcn}

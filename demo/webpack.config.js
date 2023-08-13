@@ -21,7 +21,7 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
 // don't know what the loaderOptionsPlugin does.
 const config = {
     mode: 'development',
-    entry: [ './index.mjs', ],
+    entry: [ './index.jsx', ],
     context: __dirname,
 
     output: {
@@ -42,7 +42,7 @@ const config = {
 
     resolve: {
         alias: {
-            geomap: path.join(__dirname, '..', 'src/index.mjs'),
+            geomap: path.join(__dirname, '..', 'src/index'),
         },
         extensions: ['.mjs', '.js', '.jsx', '.json'],
     },
@@ -60,11 +60,9 @@ const config = {
                 }
             },
             {
-                include: [
-                    path.resolve(__dirname ),
-                ],
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/,
+                use: ["style-loader", "css-loader"]
             },
         ],
     },

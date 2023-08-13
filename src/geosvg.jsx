@@ -6,6 +6,7 @@ import { feature as topofeature } from "topojson-client";
 import * as R from "ramda";
 import { ToolTipSvg } from "./svgtools";
 import { scaleQuantile } from "d3-scale";
+import styles from "./geosvg.module.css"
 
 const GnYlRd73 = [ "#005a32", "#238443", "#41ab5d", "#78c679", "#addd8e",
   "#d9f0a3", "#ffffcc", "#ffeda0", "#feb24c", "#f03b20" ];
@@ -58,18 +59,21 @@ const GeoFeature = props => {
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
+  let fill = { "fill": '#000' }
   if (! R.isEmpty(data) && ! R.isNil(data) && limits && data >= limits.min && data <= limits.max) {
-    styles.fill = props.colorfcn.current(data);
-    styles = { ...styles, ...props.datastyle };
+    fill.fill = props.colorfcn.current(data);
+    // styles = { ...styles, ...props.datastyle };
   }
   return (
     <path
+      className={`${props.dataclasses}`}
+      style={ fill }
       onMouseDown={(e) => setxy(e, x, y)}
       onClick={(e) => clickfn(e, x.current, y.current, props) }
       onTouchStart={(e) => setxy(e, x, y)}
       onTouchEnd={(e) => clickfn(e, x.current, y.current, props)}
       d={path}
-      css={{ ...styles, shapeRendering: "geometricPrecision" }}
+      // css={{ ...styles, shapeRendering: "geometricPrecision" }}
       onMouseOver={current => {
         props.highlight && props.highlight(current);
         props.settooltip && props.settooltip({ feature, data, path, bounds });
@@ -129,7 +133,9 @@ const GeoSvg = props => {
 
   const passalong = { geopath, colorfcn, featurekey, settooltip, ...pass };
   return (
-    <g css={props.cssStyles ? props.cssStyles : undefined}>
+    <g 
+      className={`${props.dataclasses}`}
+      css={props.cssStyles ? props.cssStyles : undefined}>
       {useMemo(() => {
         return features.map(feature => (
           <GeoFeature

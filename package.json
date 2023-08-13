@@ -87,7 +87,7 @@
         "@testing-library/react": "^14.0.0",
         "babel-jest": "29.5.0",
         "babel-loader": "^9.0.0",
-        "css-loader": "^6.0.0",
+        "css-loader": "^6.8.1",
         "eslint": "^8.0.0",
         "eslint-config-problems": "^7.0.0",
         "eslint-plugin-react": "^7.24.0",

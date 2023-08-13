@@ -1,0 +1,52 @@
+.flexColumnCenter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.blackOutline { 
+  outline: 1px solid #000;
+  margin: 2px; 
+}
+
+.whiteFill { 
+  background-color: #FFF;
+}
+
+.mapDefaults {
+  overflow: hidden;
+  marginTop: 5px;
+}
+
+.stateStyle {
+  fill: #f4f6f6;
+  stroke: #707b7c;
+  stroke-linejoin: round;
+}
+
+.stateDataStyle {
+  stroke: #323535;
+  stroke-linejoin: round;
+}
+
+.tooltipStyle {
+  font-size: 2.0rem;
+}
+
+
+.stateEmptyStyle {
+  fill: none;
+  stroke: #162021;
+  stroke-linejoin: round;
+}
+
+.countyStyle {
+  fill: #f4f6f6;
+  stroke: #ccd1d1;
+}
+
+.countyDataStyle {
+  stroke: #323535;
+  stroke-linejoin: round;
+}
+
