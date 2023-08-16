@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import * as R from "ramda";
 import countygeojson from "../geojson/gz_2010_usCounty_20m.json";
 import stategeojson from "../geojson/gz_2010_usState_20m.json";
+import styles from "./countymap.module.css";
 
 /* const useLoadMap = path => { */
 /*   const [geodata, setgeodata] = useState(undefined); */
@@ -56,16 +57,9 @@ const CountySvg = props => {
       }}
       barheight={27}
       formatter={input => Math.round(input)}
-      statestyle={{
-        fill: "none",
-        stroke: "#162021",
-        strokeLinejoin: "round"
-      }}
-      countystyle={{ fill: "#f4f6f6", stroke: "#ccd1d1" }}
-      countydatastyle={{
-        stroke: "#323535",
-        strokeLinejoin: "round"
-      }}
+      stateclasses={[styles.stateStyle]}
+      countyclasses={[styles.countyStyle]}
+      countydataclasses={[styles.countyDataStyle]}
       tooltipstyle={{ fontSize: "2.1rem" }}
       tooltiprectstyle={{ fill: '#7d9af7', fillOpacity: '0.6' }}
       limitHook={{ xlimits: { min: 0, max: 100 } }}

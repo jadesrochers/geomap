@@ -275,11 +275,11 @@ const SvgCounty = props => {
   if (!geocounty) {
     return null;
   }
+
   /* console.log('SvgCounty props: ', props) */
   /* console.log('SvgCounty pass: ', pass) */
-  const featureclasses = props.stateclasses ? props.stateclasses.join(' ') : styles.stateDataStyle
+  const featureclasses = props.countyclasses ? props.countyclasses.join(' ') : styles.countyStyle
   const dataclasses = props.countydataclasses ? props.countydataclasses.join(' ') : styles.countyDataStyle
-
 
   return (
     <GeoSvg
@@ -292,9 +292,9 @@ const SvgCounty = props => {
       projection={props.projection}
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
-      featureclasses={props.countystyle}
+      featureclasses={featureclasses}
       // style={props.countystyle}
-      dataclasses={props.countydatastyle}
+      dataclasses={dataclasses}
       // datastyle={props.countydatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
@@ -316,14 +316,19 @@ const SvgStateStatic = props => {
     return null;
   }
 
+  const featureclasses = props.stateclasses ? props.stateclasses.join(' ') : styles.stateStyle
+  const dataclasses = props.statedataclasses ? props.statedataclasses.join(' ') : styles.stateDataStyle
+
   return (
     <GeoSvg
       key="statefeatures"
       cssStyles={{ pointerEvents: "none" }}
       topology={geostate}
       topopath={"state"}
-      style={props.style}
-      datastyle={props.datastyle}
+      featureclasses={featureclasses}
+      // style={props.style}
+      dataclasses={dataclasses}
+      // datastyle={props.datastyle}
       {...pass}
     />
   );
@@ -343,6 +348,7 @@ const SvgState = props => {
   const featureclasses = props.statedataclasses ? props.statedataclasses.join(' ') : styles.stateDataStyle
   /* console.log('SvgState props: ', props) */
   /* console.log('SvgState pass: ', pass) */
+
   return (
     <GeoSvg
       key="statefeatures"
@@ -354,9 +360,9 @@ const SvgState = props => {
       projection={props.projection}
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
-      featureclasses={dataclasses}
+      featureclasses={featureclasses}
       // style={props.statestyle}
-      dataclasses={featureclasses}
+      dataclasses={dataclasses}
       // datastyle={props.statedatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}

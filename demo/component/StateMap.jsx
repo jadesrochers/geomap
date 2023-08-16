@@ -62,15 +62,15 @@ const StateSvg = props => {
         }}
         barheight={25}
         formatter={input => Math.round(input)}
-        statestyle={{
-          fill: "#f4f6f6",
-          stroke: "#707b7c",
-          strokeLinejoin: "round"
-        }}
-        statedatastyle={{
-          stroke: "#323535",
-          strokeLinejoin: "round"
-        }}
+        // statestyle={{
+        //   fill: "#f4f6f6",
+        //   stroke: "#707b7c",
+        //   strokeLinejoin: "round"
+        // }}
+        // statedatastyle={{
+        //   stroke: "#323535",
+        //   strokeLinejoin: "round"
+        // }}
         baseStyle={{ outline: "none" }}
         tooltipwidth={260}
         tooltipheight={120}

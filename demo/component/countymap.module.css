@@ -1,0 +1,15 @@
+.stateStyle {
+    fill: none;
+    stroke: #162021;
+    stroke-linejoin: round;
+}
+
+.countyStyle { 
+    fill: #f4f6f6;
+    stroke: #ccd1d1;
+}
+
+.countyDataStyle {
+    stroke: #323535;
+    stroke-linejoin: round;
+}

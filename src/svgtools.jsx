@@ -1,7 +1,7 @@
-/** @jsx jsx */
 import React from 'react';
 import * as R from 'ramda';
-import { jsx } from "@emotion/react";
+import styles from './svgtools.module.css'
+
 
 const getXY = (viewarr, bounds, width, height, scale) => {
     let x = (bounds[1][0] + bounds[0][0])/2 - width/2
@@ -38,31 +38,46 @@ const ToolTipSvg = (props) => {
 
     const data = (R.isEmpty(props.tooltip.data) || R.isNil(props.tooltip.data)) ? 'No Value' : (props.tooltip_round ? props.tooltip_round(props.tooltip.data) : Math.round(props.tooltip.data))
     const featprops = props.tooltip.feature.properties
+    const width = props.width ? props.width : 260
+    const height = props.height ? props.height : 130
     /* console.log('Foreignobject featprops: ', featprops) */
     /* console.log('Foreignobject props: ', props) */
     const defaultname = featprops.NAME ? 'NAME' : 'name'
-    const textstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '2.0rem', height: props.height, width: props.width}
+    // const textstyle = {display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'black', fontSize: '2.0rem', height: props.height, width: props.width}
     const name = props.tooltipkey ? props.tooltipkey : defaultname
     const toolstyle = (props.tooltipstyle ? props.tooltipstyle : undefined) 
     const scale = props.scale ? 1/props.scale : 1
 
-    const { x, y } = getXY(viewarr, bounds, props.width, props.height, scale)
+    const { x, y } = getXY(viewarr, bounds, width, height, scale)
 
-    const defaultstyle = {fill: '#b0b0b0', fillOpacity: 0.7}
+    const rectclasses = props.rectclasses ? props.rectclasses.join(' ') : styles.tooltipRectStyle
+    const textclasses = props.textclasses ? props.rectclasses.join(' ') : `${styles.tooltipStyle} ${styles.textstyle}`
+
     return(
-        <svg x={x} y={y} width={props.width} height={props.height} id='tooltipwhole'  >
+        <svg x={x} y={y} width={width} height={height} id='tooltipwhole'  >
         <rect transform={`scale(${scale})`}
-        css={(props.tooltiprectstyle ? props.tooltiprectstyle : defaultstyle)}
-        width={props.width} height={props.height}
+        className={`${rectclasses}`}
+        width={width} height={height}
         />
-        <text x={'50%'} y={'35%'} dominantBaseline={'middle'} textAnchor={'middle'} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+
+        <text x={'50%'} y={'35%'} 
+        dominantBaseline={'middle'} 
+        textAnchor={'middle'} 
+        className={textclasses}
+        transform={`scale(${scale})`}
         >
         {featprops[name]}
         </text>
-        <text x={'50%'} y={'70%'} dominantBaseline={'middle'} textAnchor={'middle'} css={[ textstyle, toolstyle ]} transform={`scale(${scale})`}
+
+        <text x={'50%'} y={'70%'} 
+        dominantBaseline={'middle'} 
+        textAnchor={'middle'} 
+        className={textclasses}
+        transform={`scale(${scale})`}
         >
         Data: {data}
         </text>
+
         </svg>
     )
 }

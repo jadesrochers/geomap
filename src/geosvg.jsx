@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/react";
-import { useMemo, useState, useRef, useEffect } from "react";
+// import { jsx } from "@emotion/react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
 import { feature as topofeature } from "topojson-client";
 import * as R from "ramda";
@@ -59,21 +58,21 @@ const GeoFeature = props => {
   const data = props.data,
     limits = props.limits,
     feature = props.feature;
-  let fill = { "fill": '#000' }
+  let fill = { "fill": "none" }
   if (! R.isEmpty(data) && ! R.isNil(data) && limits && data >= limits.min && data <= limits.max) {
     fill.fill = props.colorfcn.current(data);
     // styles = { ...styles, ...props.datastyle };
+    // css={{ ...styles, shapeRendering: "geometricPrecision" }}
   }
   return (
     <path
-      className={`${props.dataclasses}`}
+      className={`${props.featureclasses}`}
       style={ fill }
       onMouseDown={(e) => setxy(e, x, y)}
       onClick={(e) => clickfn(e, x.current, y.current, props) }
       onTouchStart={(e) => setxy(e, x, y)}
       onTouchEnd={(e) => clickfn(e, x.current, y.current, props)}
       d={path}
-      // css={{ ...styles, shapeRendering: "geometricPrecision" }}
       onMouseOver={current => {
         props.highlight && props.highlight(current);
         props.settooltip && props.settooltip({ feature, data, path, bounds });
@@ -113,10 +112,10 @@ const GeoSvg = props => {
   // Pass all data to set up the colorizing function
   const featurekey = props.featurekey ? props.featurekey : "GEO_ID";
   const pass = R.omit(["data"])(props);
-  const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
-  const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
-  const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
-  const tooltiprectstyle = props.tooltiprectstyle ? props.tooltiprectstyle : { fill: '#b0b0b0', fillOpacity: 0.70 };
+  // const tooltipwidth = props.tooltipwidth ? props.tooltipwidth : 260;
+  // const tooltipheight = props.tooltipheight ? props.tooltipheight : 130;
+  // const tooltipstyle = props.tooltipstyle ? props.tooltipstyle : { fontSize: "2.2rem", fontWeight: 300 };
+  // const tooltiprectstyle = props.tooltiprectstyle ? props.tooltiprectstyle : { fill: '#b0b0b0', fillOpacity: 0.70 };
   const colorize = props.colorize ? props.colorize : quantile(GnYlRd73) 
  
   useMemo(() => {
@@ -132,10 +131,10 @@ const GeoSvg = props => {
   }, [props.data]);
 
   const passalong = { geopath, colorfcn, featurekey, settooltip, ...pass };
+  // css={props.cssStyles ? props.cssStyles : undefined}>
   return (
     <g 
-      className={`${props.dataclasses}`}
-      css={props.cssStyles ? props.cssStyles : undefined}>
+      className={`${props.dataclasses}`} >
       {useMemo(() => {
         return features.map(feature => (
           <GeoFeature
@@ -154,10 +153,10 @@ const GeoSvg = props => {
       }, [props.data, features.length, props.limits])}
       <ToolTipSvg
         tooltip={tooltip}
-        tooltipstyle={tooltipstyle}
-        tooltiprectstyle={tooltiprectstyle}
-        width={tooltipwidth}
-        height={tooltipheight}
+        // rectclasses={}
+        // textclasses={}
+        // width={tooltipwidth}
+        // height={tooltipheight}
         {...props}
       />
     </g>
