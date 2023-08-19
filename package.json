@@ -42,7 +42,6 @@
         ]
     },
     "dependencies": {
-        "@emotion/react": "^11.4.0",
         "@jadesrochers/legends": "^0.2.4",
         "@jadesrochers/reacthelpers": "^0.4.4",
         "@jadesrochers/selectbox": "^0.3.2",
@@ -77,8 +76,6 @@
         "@babel/preset-env": "^7.14.4",
         "@babel/preset-react": "^7.13.13",
         "@babel/runtime": "^7.14.0",
-        "@emotion/babel-plugin": "^11.3.0",
-        "@emotion/jest": "^11.1.0",
         "@rollup/plugin-babel": "^6.0.0",
         "@rollup/plugin-commonjs": "^24.0.0",
         "@rollup/plugin-node-resolve": "^15.0.0",

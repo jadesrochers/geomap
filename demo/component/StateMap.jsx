@@ -4,6 +4,7 @@ import { UsStateMap } from "geomap";
 import React, { useEffect, useState } from "react";
 import stategeojson from "../geojson/gz_2010_usState_20m.json";
 import * as R from "ramda";
+import styles from "./statemap.module.css";
 
 /* const useLoadMap = path => { */
 /*   const [geodata, setgeodata] = useState(undefined); */
@@ -57,24 +58,18 @@ const StateSvg = props => {
       <UsStateMap
         data={data}
         getstates={stategeojson}
+        // TODO: Remove Emotion from the Legend library
         legendstyle={{
           fontSize: "0.7em",
         }}
         barheight={25}
         formatter={input => Math.round(input)}
-        // statestyle={{
-        //   fill: "#f4f6f6",
-        //   stroke: "#707b7c",
-        //   strokeLinejoin: "round"
-        // }}
-        // statedatastyle={{
-        //   stroke: "#323535",
-        //   strokeLinejoin: "round"
-        // }}
+        // TODO: Remove Emotion css in js from SelectBox as well
         baseStyle={{ outline: "none" }}
-        tooltipwidth={260}
+        tooltipwidth={230}
         tooltipheight={120}
-        tooltipstyle={{ fontSize: "2.0rem" }}
+        tooltiprectclass={[styles.tooltipRect]}
+        tooltiptextclass={[styles.tooltipText]}
         limitHook={{ xlimits: { min: 0, max: 100 } }}
       />
     </div>

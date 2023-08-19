@@ -31,7 +31,6 @@ const CountySvg = props => {
   /* const path2 = "https://raw.githubusercontent.com/jadesrochers/geomap/master/src/__tests__/gz_2010_usCounty_20m.json"; */
   /* let stategeo = useLoadMap(path); */
   /* let countygeo = useLoadMap(path2); */
-  //console.log('the other data: ',otherdata)
   // The datakey will determine the path for the topology in the output
   if ( !stategeojson || !countygeojson ) {
     return null;
@@ -52,6 +51,7 @@ const CountySvg = props => {
       width="90vw"
       height="105vh"
       colorize={undefined}
+      // TODO: Remove Emotion from legend componet lib
       legendstyle={{
         fontSize: "0.8rem",
       }}
@@ -60,8 +60,10 @@ const CountySvg = props => {
       stateclasses={[styles.stateStyle]}
       countyclasses={[styles.countyStyle]}
       countydataclasses={[styles.countyDataStyle]}
-      tooltipstyle={{ fontSize: "2.1rem" }}
-      tooltiprectstyle={{ fill: '#7d9af7', fillOpacity: '0.6' }}
+      tooltipwidth={200}
+      tooltipheight={110}
+      tooltiprectclass={[styles.tooltipRect]}
+      tooltiptextclass={[styles.tooltipText]}
       limitHook={{ xlimits: { min: 0, max: 100 } }}
       clickFcn={props => console.log("Feature feature: ", props.feature)}
     />

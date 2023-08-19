@@ -3,7 +3,6 @@ import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
 import { GeoSvg } from "./geosvg";
 import { topology } from "topojson-server";
-import { jsx } from "@emotion/react";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
 import { passExceptChildren, createHighlight } from "@jadesrochers/reacthelpers";
@@ -301,8 +300,8 @@ const SvgCounty = props => {
       clickFcn={props.clickFcn}
       tooltipwidth={props.tooltipwidth}
       tooltipheight={props.tooltipheight}
-      tooltipstyle={props.tooltipstyle}
-      tooltiprectstyle={props.tooltiprectstyle}
+      tooltiprectclass={props.tooltiprectclass}
+      tooltiptextclass={props.tooltiptextclass}
       setdatadisplay={props.setdatadisplay}
       scale={props.scale}
     />
@@ -369,8 +368,8 @@ const SvgState = props => {
       clickFcn={props.clickFcn}
       tooltipwidth={props.tooltipwidth}
       tooltipheight={props.tooltipheight}
-      tooltipstyle={props.tooltipstyle}
-      tooltiprectstyle={props.tooltiprectstyle}
+      tooltiprectclass={props.tooltiprectclass}
+      tooltiptextclass={props.tooltiptextclass}
       setdatadisplay={props.setdatadisplay}
       scale={props.scale}
     />

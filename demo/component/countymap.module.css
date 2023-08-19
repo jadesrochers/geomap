@@ -13,3 +13,14 @@
     stroke: #323535;
     stroke-linejoin: round;
 }
+
+.tooltipText {
+    font-size: 1.4rem; 
+    color: black;
+    font-weight: 100;
+}
+
+.tooltipRect {
+    fill: #7d9af7;
+    fill-opacity: 0.6; 
+}

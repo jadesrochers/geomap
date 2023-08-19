@@ -1,4 +1,3 @@
-// import { jsx } from "@emotion/react";
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
 import { feature as topofeature } from "topojson-client";
@@ -153,10 +152,10 @@ const GeoSvg = props => {
       }, [props.data, features.length, props.limits])}
       <ToolTipSvg
         tooltip={tooltip}
-        // rectclasses={}
-        // textclasses={}
-        // width={tooltipwidth}
-        // height={tooltipheight}
+        rectclasses={props.tooltiprectclass}
+        textclasses={props.tooltiptextclass}
+        width={props.tooltipwidth}
+        height={props.tooltipheight}
         {...props}
       />
     </g>

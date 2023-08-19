@@ -1,0 +1,21 @@
+.stateStyle {
+    fill: #f4f6f6;
+    stroke: #707b7c;
+    strokeLinejoin: round;
+}
+
+.stateDataStyle {
+   stroke: #323535;
+   strokeLinejoin: round;
+}
+
+.tooltipText {
+    font-size: 1.8rem; 
+    color: black;
+    font-weight: 300;
+}
+
+.tooltipRect {
+    fill: #c4c2d3;
+    fill-opacity: 0.5; 
+}

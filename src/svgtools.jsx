@@ -51,7 +51,7 @@ const ToolTipSvg = (props) => {
     const { x, y } = getXY(viewarr, bounds, width, height, scale)
 
     const rectclasses = props.rectclasses ? props.rectclasses.join(' ') : styles.tooltipRectStyle
-    const textclasses = props.textclasses ? props.rectclasses.join(' ') : `${styles.tooltipStyle} ${styles.textstyle}`
+    const textclasses = props.textclasses ? props.textclasses.join(' ') : `${styles.tooltipStyle} ${styles.textstyle}`
 
     return(
         <svg x={x} y={y} width={width} height={height} id='tooltipwhole'  >
