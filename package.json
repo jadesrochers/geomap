@@ -48,9 +48,9 @@
         ]
     },
     "dependencies": {
-        "@jadesrochers/legends": "^0.2.4",
+        "@jadesrochers/legends": "^0.3",
         "@jadesrochers/reacthelpers": "^0.4.4",
-        "@jadesrochers/selectbox": "^0.3.2",
+        "@jadesrochers/selectbox": "^0.4",
         "d3-array": "^3.2.0",
         "d3-geo": "^3.1.0",
         "d3-scale": "^4.0.0",
@@ -65,7 +65,7 @@
     "scripts": {
         "test": "BABEL_ENV=jest jest",
         "test-watch": "BABEL_ENV=jest jest --watch",
-        "build-es": "BABEL_ENV=es6 babel --keep-file-extension --out-dir es --ignore '**/__tests__/' src",
+        "build-es": "BABEL_ENV=es6 babel --keep-file-extension --out-dir es --ignore '**/__tests__/' src && cp src/*.css es/",
         "build-umd-webp": "BABEL_ENV=umd webpack --config ./webpack.config.js --display-modules",
         "build-umd-roll": "BABEL_ENV=umd rollup --config ./rollup.config.mjs",
         "profile": "webpack --config ./webpack.config.js --profile --json > webpack-stats.json",
