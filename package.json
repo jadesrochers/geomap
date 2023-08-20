@@ -35,22 +35,20 @@
         "transform": {
             "^.+\\.jsx?$": "babel-jest",
             "^.+\\.mjs$": "babel-jest",
-            "^.+\\.js$": "babel-jest"
+            "^.+\\.js$": "babel-jest",
+            "^.+\\.(css|styl|less|sass|scss)$": "<rootDir>/node_modules/jest-css-modules-transform"
         },
         "transformIgnorePatterns": [
-            "node_modules/(?!(d3-*|internmap))"
+            "node_modules/(?!(d3-*|internmap|@jadesrochers))"
         ],
         "moduleNameMapper": {
-            "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js"
-        },
-        "testPathIgnorePatterns": [
-            "<rootDir>/src/__tests__/__mocks__"
-        ]
+            "\\.(css|less)$": "<rootDir>/empty-module.js"
+        }
     },
     "dependencies": {
-        "@jadesrochers/legends": "^0.3",
+        "@jadesrochers/legends": "^0.3.1",
         "@jadesrochers/reacthelpers": "^0.4.4",
-        "@jadesrochers/selectbox": "^0.4",
+        "@jadesrochers/selectbox": "^0.4.1",
         "d3-array": "^3.2.0",
         "d3-geo": "^3.1.0",
         "d3-scale": "^4.0.0",
@@ -88,6 +86,7 @@
         "@rollup/plugin-terser": "^0.4.0",
         "@testing-library/jest-dom": "^5.16.0",
         "@testing-library/react": "^14.0.0",
+        "autoprefixer": "^10.4.15",
         "babel-jest": "29.5.0",
         "babel-loader": "^9.0.0",
         "css-loader": "^6.8.1",
@@ -97,6 +96,7 @@
         "eslint-plugin-react-hooks": "^4.2.0",
         "html-webpack-plugin": "^5.3.1",
         "jest": "^29.0.0",
+        "jest-css-modules-transform": "^4.4.2",
         "jest-environment-jsdom": "^29.0.0",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",

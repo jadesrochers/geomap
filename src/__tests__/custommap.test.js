@@ -1,8 +1,8 @@
 import React from 'react';
-import * as R from 'ramda'
-import { render, waitFor } from '@testing-library/react'
-import { CustomMap } from '../custommap'
-import stategeojson from './gz_2010_usState_20m.json'
+import * as R from 'ramda';
+import { render, waitFor } from '@testing-library/react';
+import { CustomMap } from '../custommap';
+import stategeojson from './gz_2010_usState_20m.json';
 
 describe('custom map tests',  () => {
     const stateProm = () => {  
