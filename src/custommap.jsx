@@ -2,8 +2,8 @@ import React from 'react'
 import * as R from 'ramda'
 import { createHighlight } from '@jadesrochers/reacthelpers'
 import { MouseRect } from "@jadesrochers/selectbox";
-import { useLoadgeo, BaseMap } from './usmaps'
-import { GeoSvg } from './geosvg'
+import { useLoadgeo, BaseMap } from './usmaps.jsx'
+import { GeoSvg } from './geosvg.jsx'
 import { geoAlbersUsa } from 'd3-geo'
 import { scaleQuantile } from 'd3-scale';
 

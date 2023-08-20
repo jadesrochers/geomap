@@ -2,7 +2,7 @@ import React, { useMemo, useState, useRef, useEffect } from "react";
 import { geoPath } from "d3-geo";
 import { feature as topofeature } from "topojson-client";
 import * as R from "ramda";
-import { ToolTipSvg } from "./svgtools";
+import { ToolTipSvg } from "./svgtools.jsx";
 import { scaleQuantile } from "d3-scale";
 import styles from "./geosvg.module.css"
 

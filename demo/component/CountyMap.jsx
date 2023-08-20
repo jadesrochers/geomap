@@ -51,10 +51,7 @@ const CountySvg = props => {
       width="90vw"
       height="105vh"
       colorize={undefined}
-      // TODO: Remove Emotion from legend componet lib
-      legendstyle={{
-        fontSize: "0.8rem",
-      }}
+      legendclasses={[styles.legendStyle]}
       barheight={27}
       formatter={input => Math.round(input)}
       stateclasses={[styles.stateStyle]}

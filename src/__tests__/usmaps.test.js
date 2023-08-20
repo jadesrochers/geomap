@@ -4,11 +4,9 @@ import { render, waitFor } from '@testing-library/react'
 import { UsMap, UsStateMap, UsCountyMap } from '../usmaps'
 import countygeojson from './gz_2010_usCounty_20m.json'
 import stategeojson from './gz_2010_usState_20m.json'
-import { matchers } from '@emotion/jest'  
 import { format } from 'd3-format';
 import { scaleThreshold } from "d3-scale";
 
-expect.extend(matchers)  
 
 // Note that when using the data files, I need to extract the type and  
 // features in order to make it so the topojson.topology() fcn will work  

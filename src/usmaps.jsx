@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import * as R from "ramda";
 import { geoAlbersUsa } from "d3-geo";
-import { GeoSvg } from "./geosvg";
+import { GeoSvg } from "./geosvg.jsx";
 import { topology } from "topojson-server";
 import { BarScale } from "@jadesrochers/legends";
 import { SelectBase, MouseRect, ViewBoxZoomPan, useZoomPan, ZoomButtons } from "@jadesrochers/selectbox";
@@ -98,7 +98,7 @@ const GeoMap = props => {
     >
       <BarScale
         key="legend"
-        cssStyles={props.legendstyle}
+        classnames={props.legendclasses}
         data={props.data}
         formatter={props.legendformatter}
         {...pass}
@@ -158,7 +158,7 @@ const BaseMap = props => {
         height={"99%"}
         sizex={xsize}
         sizey={ysize}
-        cssStyles={[blackOutline, whitefill, (props.baseStyle ? props.baseStyle : undefined) ] }
+        classnames={[styles.blackOutline, styles.whitefill, props.selectclasses ? props.selectclasses.join(' ') : undefined]}
       >
         <ViewBoxZoomPan
           key="viewbox"
@@ -174,7 +174,7 @@ const BaseMap = props => {
         key="zoombutton" 
         xoffset="90%" 
         yoffset="90%" 
-        cssStyles={props.zoomstyle}
+        classnames={props.zoomclassnames}
        />
     </GeoMap>
   );
@@ -292,9 +292,7 @@ const SvgCounty = props => {
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
       featureclasses={featureclasses}
-      // style={props.countystyle}
       dataclasses={dataclasses}
-      // datastyle={props.countydatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       clickFcn={props.clickFcn}
@@ -325,9 +323,7 @@ const SvgStateStatic = props => {
       topology={geostate}
       topopath={"state"}
       featureclasses={featureclasses}
-      // style={props.style}
       dataclasses={dataclasses}
-      // datastyle={props.datastyle}
       {...pass}
     />
   );
@@ -360,9 +356,7 @@ const SvgState = props => {
       scaling={props.scaling}
       colorize={props.colorize ? props.colorize : undefined}
       featureclasses={featureclasses}
-      // style={props.statestyle}
       dataclasses={dataclasses}
-      // datastyle={props.statedatastyle}
       highlight={highlight(props.highlightstyle ? props.highlightstyle : defaulthighlight)}
       deHighlight={deHighlight}
       clickFcn={props.clickFcn}

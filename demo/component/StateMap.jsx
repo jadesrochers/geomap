@@ -58,14 +58,10 @@ const StateSvg = props => {
       <UsStateMap
         data={data}
         getstates={stategeojson}
-        // TODO: Remove Emotion from the Legend library
-        legendstyle={{
-          fontSize: "0.7em",
-        }}
+        legendclasses={[styles.legendStyle]}
         barheight={25}
         formatter={input => Math.round(input)}
-        // TODO: Remove Emotion css in js from SelectBox as well
-        baseStyle={{ outline: "none" }}
+        selectclasses={[styles.baseOutline]}
         tooltipwidth={230}
         tooltipheight={120}
         tooltiprectclass={[styles.tooltipRect]}
